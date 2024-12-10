@@ -1,0 +1,24 @@
+server:
+  port: 19041
+
+spring:
+  main:
+    web-application-type: reactive
+  cloud:
+    gateway:
+      routes:
+
+      discovery:
+        locator:
+          enabled: true
+  config:
+    import: classpath:application-key.yml
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19040/eureka/
+
+service:
+  jwt:
+    secret-key: ${JWT_SECRET_KEY}
