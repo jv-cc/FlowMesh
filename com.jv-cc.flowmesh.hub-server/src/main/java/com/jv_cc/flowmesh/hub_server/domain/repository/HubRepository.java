@@ -2,7 +2,12 @@ package com.jv_cc.flowmesh.hub_server.domain.repository;
 
 
 import com.jv_cc.flowmesh.hub_server.domain.model.HubEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface HubRepository extends JpaRepository<HubEntity, Long> {
+public interface HubRepository {
+
+    boolean existsByNameAndDeletedAtIsNull(String name);
+
+    boolean existsByLatitudeAndLongitudeAndDeletedAtIsNull(double latitude, double longitude);
+
+    HubEntity save(HubEntity hubEntity);
 }
