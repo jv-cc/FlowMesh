@@ -9,7 +9,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -47,23 +46,6 @@ public class JwtUtil {
         );
     }
 
-    public HttpHeaders setHeaderTokenData(String accessToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(JwtHeader.KEY_ACCESS_TOKEN, accessToken);
-        headers.add(JwtHeader.KEY_USER_ID, getClaimValueFromToken(accessToken, USERID));
-        headers.add(JwtHeader.KEY_USER_ROLE, getClaimValueFromToken(accessToken, USERROLE));
-        return headers;
-    }
-
-    public HttpHeaders setHeaderTokenData(String accessToken, String refreshToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(JwtHeader.KEY_ACCESS_TOKEN, accessToken);
-        headers.add(JwtHeader.KEY_REFRESH_TOKEN, refreshToken);
-        headers.add(JwtHeader.KEY_USER_ID, getClaimValueFromToken(accessToken, USERID));
-        headers.add(JwtHeader.KEY_USER_ROLE, getClaimValueFromToken(accessToken, USERROLE));
-        return headers;
-    }
-
     public boolean validateToken(String token) {
         try {
             token = token.substring(JwtHeader.VALUE_BEARER_PREFIX.length());
@@ -83,22 +65,22 @@ public class JwtUtil {
             log.debug("Validated token issuer");
 
             Long userId = payload.get(USERID, Long.class);
-            if(userId == null || userId <= 0) {
+            if (userId == null || userId <= 0) {
                 log.error("Invalid userId");
                 return false;
             }
             log.debug("Validated token userId");
 
             Date expiration = payload.getExpiration();
-            if(expiration == null || expiration.before(new Date())) {
+            if (expiration == null || expiration.before(new Date())) {
                 log.error("Invalid expiration");
                 return false;
             }
             log.debug("Validated token expiration");
 
             return true;
-        }catch (ExpiredJwtException e) {
-            log.error("ExpiredJwtException, Token has expired: {}" , e.getMessage());
+        } catch (ExpiredJwtException e) {
+            log.error("ExpiredJwtException, Token has expired: {}", e.getMessage());
         } catch (MalformedJwtException e) {
             log.error("MalformedJwtException, Malformed token: {}", e.getMessage());
         } catch (Exception e) {
@@ -130,7 +112,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public static class JwtHeader{
+    public static class JwtHeader {
         public final static String KEY_ACCESS_TOKEN = "Authorization";
         public final static String KEY_REFRESH_TOKEN = "X-Refresh-Token";
         public final static String KEY_USER_ID = "X-User-Id";
