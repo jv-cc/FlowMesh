@@ -19,11 +19,11 @@ public class HubService {
     @Transactional
     public HubDTO createHub(ReqHubPostDTO dto) {
 
-        if(hubRepository.existsByNameAndDeletedAtIsNull(dto.getName())){
+        if(hubRepository.existsByNameAndIsDeletedFalse(dto.getName())){
             throw new DuplicateHubNameException();
         }
 
-        if(hubRepository.existsByLatitudeAndLongitudeAndDeletedAtIsNull(dto.getLatitude(), dto.getLongitude())) {
+        if(hubRepository.existsByLatitudeAndLongitudeAndIsDeletedFalse(dto.getLatitude(), dto.getLongitude())) {
             throw new DuplicateHubCoordinatesException();
         }
 
