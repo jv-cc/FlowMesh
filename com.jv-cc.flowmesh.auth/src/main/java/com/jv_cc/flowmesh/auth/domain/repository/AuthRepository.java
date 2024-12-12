@@ -17,4 +17,8 @@ public interface AuthRepository extends JpaRepository<Auth, Long> {
     boolean existsBySlackId(String slackId);
 
     Optional<Auth> findByUsernameAndIsDeletedFalse(String username);
+
+    Optional<Auth> findByIdAndIsDeletedFalse(Long id);
+
+    Optional<Auth> findByRefreshTokenAndIsDeletedFalse(String refreshToken);
 }

@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Slf4j(topic = "AuthService")
 @Service
 @RequiredArgsConstructor
@@ -53,8 +55,7 @@ public class AuthService {
 
     @Transactional
     public AuthTokenDto login(String username, String password) {
-        Auth auth = authRepository.findByUsernameAndIsDeletedFalse(username)
-                .orElseThrow(UserNotExistException::new);
+        Auth auth = this.getEntity(username);
         log.info("Exist username: {}", username);
 
         if (!passwordEncoder.matches(password, auth.getPassword())) {
@@ -73,6 +74,42 @@ public class AuthService {
                 refreshToken,
                 jwtUtil.getIssuedAtFromToken(refreshToken)
         );
+    }
+
+    public AuthTokenDto updateRefreshToken(String refreshToken) {
+        if (!jwtUtil.validateToken(refreshToken)) {
+            throw new AuthInvalidTokenException();
+        }
+        log.info("Validate token completed");
+
+        Auth auth = this.getEntityByToken(refreshToken);
+        log.info("Load Auth entity completed");
+
+        refreshToken = jwtUtil.generateRefreshToken(auth.getId(), auth.getRole());
+        auth.updateRefreshToken(refreshToken);
+        authRepository.save(auth);
+        log.info("Auth updated successfully");
+
+        String accessToken = jwtUtil.generateAccessToken(auth.getId(), auth.getRole());
+        LocalDateTime issuedAt = jwtUtil.getIssuedAtFromToken(refreshToken);
+
+        return new AuthTokenDto(
+            auth.getId(),
+                auth.getRole(),
+                accessToken,
+                auth.getRefreshToken(),
+                issuedAt
+        );
+    }
+
+    private Auth getEntity(String username) {
+        return authRepository.findByUsernameAndIsDeletedFalse(username)
+                .orElseThrow(UserNotExistException::new);
+    }
+
+    private Auth getEntityByToken(String refreshToken) {
+        return authRepository.findByRefreshTokenAndIsDeletedFalse(refreshToken)
+                .orElseThrow(AuthInvalidTokenException::new);
     }
 
 }

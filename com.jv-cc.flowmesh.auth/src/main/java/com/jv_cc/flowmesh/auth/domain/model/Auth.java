@@ -42,7 +42,7 @@ public class Auth {
     private UserRoleEnum role;
 
     @Column(name = "refresh_token")
-    private String refresh_token;
+    private String refreshToken;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -84,7 +84,7 @@ public class Auth {
     }
 
     public void updateRefreshToken(String refresh_token) {
-        this.refresh_token = refresh_token;
+        this.refreshToken = refresh_token;
     }
 
 }
