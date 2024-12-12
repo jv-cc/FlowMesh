@@ -1,6 +1,8 @@
 package com.jv_cc.flowmesh.auth.presentation.controller;
 
 import com.jv_cc.flowmesh.auth.application.dto.AuthDto;
+import com.jv_cc.flowmesh.auth.application.dto.AuthUserDto;
+import com.jv_cc.flowmesh.auth.application.dto.UserMetaDto;
 import com.jv_cc.flowmesh.auth.application.util.JwtUtil;
 import com.jv_cc.flowmesh.auth.domain.service.AuthService;
 import com.jv_cc.flowmesh.auth.infrastructor.swagger.AuthControllerSwagger;
@@ -28,14 +30,14 @@ public class AuthController implements AuthControllerSwagger {
     @PostMapping("/sign-up")
     public ResponseEntity<ResDTO<SignupResDto>> signup(@Valid @RequestBody SignupReqDto signupReqDto) {
         log.debug("signupReqDto: {}", signupReqDto.toString());
-        AuthDto authDto = authService.register(
-                AuthDto.builder()
-                        .username(signupReqDto.getUsername())
-                        .password(signupReqDto.getPassword())
-                        .email(signupReqDto.getEmail())
-                        .nickname(signupReqDto.getNickname())
-                        .slack_id(signupReqDto.getSlackId())
-                        .build()
+        UserMetaDto metaDto = authService.register(
+                new AuthUserDto(
+                        signupReqDto.getUsername(),
+                        signupReqDto.getPassword(),
+                        signupReqDto.getEmail(),
+                        signupReqDto.getNickname(),
+                        signupReqDto.getSlackId()
+                )
         );
         log.info("User Signup Success, userId: {}", authDto.getId());
 
@@ -51,8 +53,8 @@ public class AuthController implements AuthControllerSwagger {
                         .code(HttpStatus.CREATED.value())
                         .message("사용자가 생성되었습니다.")
                         .data(new SignupResDto(
-                                authDto.getId(),
-                                authDto.getCreateAt().toString())
+                                metaDto.getId(),
+                                metaDto.getCreateAt().toString())
                         )
                         .build(),
                 headers,

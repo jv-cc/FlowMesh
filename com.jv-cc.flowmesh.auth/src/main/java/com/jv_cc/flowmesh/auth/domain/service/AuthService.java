@@ -24,44 +24,31 @@ public class AuthService{
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public AuthDto register(AuthDto authDto) {
-        if (authRepository.existsByUsername(authDto.getUsername())) {
-            log.error("Username already exists");
+    public UserMetaDto register(AuthUserDto userDto) {
+        if (authRepository.existsByUsername(userDto.getUsername())) {
             throw new UserExistUsernameException();
         }
-
-        if (authRepository.existsByEmail(authDto.getEmail())) {
-            log.error("Email already exists");
+        if (authRepository.existsByEmail(userDto.getEmail())) {
             throw new UserExistEmailException();
         }
-
-        if (authRepository.existsByNickname(authDto.getNickname())) {
-            log.error("Nickname already exists");
+        if (authRepository.existsByNickname(userDto.getNickname())) {
             throw new UserExistNicknameException();
         }
-
-        if (authRepository.existsBySlackId(authDto.getSlack_id())) {
-            log.error("Slack_id already exists");
+        if (authRepository.existsBySlackId(userDto.getSlack_id())) {
             throw new UserExistSlackidException();
         }
         log.info("Duplicate scan completed");
 
-        authDto.setPassword(
-                passwordEncoder.encode(authDto.getPassword())
-        );
-        log.info("Password encryption completed");
-
-        Auth auth = authDto.toEntity();
+        Auth auth = Auth.builder()
+                .username(userDto.getUsername())
+                .password(passwordEncoder.encode(userDto.getPassword()))
+                .email(userDto.getEmail())
+                .nickname(userDto.getNickname())
+                .slackId(userDto.getSlack_id())
+                .build();
         auth = authRepository.save(auth);
+        log.info("Auth registered successfully");
 
-        auth.updateRefreshToken(
-                jwtUtil.generateRefreshToken(auth.getId(), auth.getRole())
-        );
-        log.info("Refresh token generate completed");
-
-        return AuthDto.fromEntity(
-                auth,
-                jwtUtil.generateAccessToken(auth.getId(), auth.getRole())
-        );
+        return new UserMetaDto(auth.getId(), auth.getCreatedAt());
     }
 }

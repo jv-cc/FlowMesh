@@ -6,9 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -74,7 +72,7 @@ public class Auth {
         this.deletedBy = userId;
         return this.deletedAt;
     }
-
+    @Builder
     public Auth(String username, String password, String email, String nickname, String slackId) {
         this.username = username;
         this.password = password;
