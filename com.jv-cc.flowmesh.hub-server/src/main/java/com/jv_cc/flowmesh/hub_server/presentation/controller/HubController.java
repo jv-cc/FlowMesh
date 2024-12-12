@@ -1,10 +1,12 @@
 package com.jv_cc.flowmesh.hub_server.presentation.controller;
 
+import com.jv_cc.flowmesh.hub_server.application.dto.HubDTO;
 import com.jv_cc.flowmesh.hub_server.application.service.HubService;
 import com.jv_cc.flowmesh.hub_server.infrastructure.swagger.HubControllerSwagger;
 import com.jv_cc.flowmesh.hub_server.presentation.request.ReqHubPostDTO;
 import com.jv_cc.flowmesh.hub_server.presentation.response.ResDTO;
 import com.jv_cc.flowmesh.hub_server.presentation.response.ResHubDTO;
+import com.jv_cc.flowmesh.hub_server.presentation.response.ResHubGetDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,27 @@ public class HubController implements HubControllerSwagger {
                         .data(new ResHubDTO(hubService.createHub(dto).getHubId()))
                         .build(),
                 HttpStatus.CREATED
+        );
+    }
+
+    @GetMapping("/{hubId}")
+    public ResponseEntity<ResDTO<ResHubGetDTO>> getHub(@PathVariable Long hubId) {
+
+        HubDTO hubDTO = hubService.getHub(hubId);
+
+        return new ResponseEntity<>(
+                ResDTO.<ResHubGetDTO>builder()
+                        .code(HttpStatus.OK.value())
+                        .message("상품 조회에 성공했습니다.")
+                        .data(ResHubGetDTO.builder()
+                                .hubId(hubDTO.getHubId())
+                                .name(hubDTO.getName())
+                                .address(hubDTO.getAddress())
+                                .latitude(hubDTO.getLatitude())
+                                .longitude(hubDTO.getLongitude())
+                                .build())
+                        .build(),
+                HttpStatus.OK
         );
     }
 
