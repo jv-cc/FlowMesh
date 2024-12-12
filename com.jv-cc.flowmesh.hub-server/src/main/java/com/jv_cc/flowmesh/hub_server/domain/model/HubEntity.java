@@ -70,10 +70,12 @@ public class HubEntity {
         this.longitude = longitude;
     }
 
-    public void markAsDelete(Long userId) {
+    /*
+    * TODO: deletedBy = userId 추가
+    * */
+    public void markAsDelete() {
         this.isDeleted = true;
         this.deletedAt = LocalDateTime.now();
-        this.deletedBy = userId;
     }
 
     public HubEntity(String name, String address, Double latitude, Double longitude, Long userId) {

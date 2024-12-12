@@ -20,11 +20,11 @@ public class HubService {
     @Transactional
     public HubDTO createHub(ReqHubPostDTO dto) {
 
-        if(checkDuplicateHubName(dto.getName())){
+        if (checkDuplicateHubName(dto.getName())) {
             throw new DuplicateHubNameException();
         }
 
-        if(checkDuplicateHubCoordinates(dto.getLatitude(), dto.getLongitude())) {
+        if (checkDuplicateHubCoordinates(dto.getLatitude(), dto.getLongitude())) {
             throw new DuplicateHubCoordinatesException();
         }
 
@@ -36,19 +36,32 @@ public class HubService {
     @Transactional
     public HubDTO modifyHub(Long hubId, ReqHubPostDTO dto) {
 
-        HubEntity hubEntity = hubRepository.findByIdAndIsDeletedFalse(hubId).orElseThrow(NotFoundHubException::new);
+        HubEntity hubEntity = getHubEntity(hubId);
 
-        if(checkDuplicateHubName(dto.getName())){
+        if (checkDuplicateHubName(dto.getName())) {
             throw new DuplicateHubNameException();
         }
 
-        if(checkDuplicateHubCoordinates(dto.getLatitude(), dto.getLongitude())) {
+        if (checkDuplicateHubCoordinates(dto.getLatitude(), dto.getLongitude())) {
             throw new DuplicateHubCoordinatesException();
         }
 
         hubEntity.update(dto.getName(), dto.getAddress(), dto.getLatitude(), dto.getLongitude());
 
-        return HubDTO.of(hubEntity) ;
+        return HubDTO.of(hubEntity);
+    }
+
+    @Transactional
+    public HubDTO deleteHub(Long hubId) {
+
+        HubEntity hubEntity = getHubEntity(hubId);
+        hubEntity.markAsDelete();
+
+        return HubDTO.of(hubEntity);
+    }
+
+    private HubEntity getHubEntity(Long hubId) {
+        return hubRepository.findById(hubId).orElseThrow(NotFoundHubException::new);
     }
 
     private boolean checkDuplicateHubName(String name) {
