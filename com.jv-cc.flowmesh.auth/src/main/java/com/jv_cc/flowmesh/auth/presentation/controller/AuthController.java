@@ -64,8 +64,6 @@ public class AuthController implements AuthControllerSwagger {
         HttpHeaders headers = new HttpHeaders();
         headers.add(JwtUtil.JwtHeader.KEY_ACCESS_TOKEN, tokenDto.getAccessToken());
         headers.add(JwtUtil.JwtHeader.KEY_REFRESH_TOKEN, tokenDto.getRefreshToken());
-        headers.add(JwtUtil.JwtHeader.KEY_USER_ID, String.valueOf(tokenDto.getId()));
-        headers.add(JwtUtil.JwtHeader.KEY_USER_ROLE, String.valueOf(tokenDto.getRole()));
         log.info("Add token and user information to header");
 
         return new ResponseEntity<>(
@@ -73,8 +71,10 @@ public class AuthController implements AuthControllerSwagger {
                         .code(HttpStatus.CREATED.value())
                         .message("로그인 정보가 생성되었습니다.")
                         .data(new SigninResDto(
-                                tokenDto.getCreateAt().toString())
-                        )
+                                String.valueOf(tokenDto.getCreateAt()),
+                                String.valueOf(tokenDto.getId()),
+                                String.valueOf(tokenDto.getRole())
+                        ))
                         .build(),
                 headers,
                 HttpStatus.CREATED
