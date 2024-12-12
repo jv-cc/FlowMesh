@@ -3,7 +3,6 @@ package com.jv_cc.flowmesh.hub_server.application.service;
 import com.jv_cc.flowmesh.hub_server.application.dto.HubDTO;
 import com.jv_cc.flowmesh.hub_server.application.exception.DuplicateHubCoordinatesException;
 import com.jv_cc.flowmesh.hub_server.application.exception.DuplicateHubNameException;
-import com.jv_cc.flowmesh.hub_server.application.exception.NotFoundHubException;
 import com.jv_cc.flowmesh.hub_server.domain.model.HubEntity;
 import com.jv_cc.flowmesh.hub_server.domain.repository.HubRepository;
 import com.jv_cc.flowmesh.hub_server.presentation.request.ReqHubPostDTO;

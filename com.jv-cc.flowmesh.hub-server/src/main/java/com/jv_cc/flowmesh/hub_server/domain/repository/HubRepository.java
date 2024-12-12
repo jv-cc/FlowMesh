@@ -8,9 +8,9 @@ import java.util.Optional;
 
 public interface HubRepository extends JpaRepository<HubEntity, Long>{
 
-    boolean existsByNameAndDeletedAtIsNull(String name);
+    boolean existsByNameAndIsDeletedFalse(String name);
 
-    boolean existsByLatitudeAndLongitudeAndDeletedAtIsNull(double latitude, double longitude);
+    boolean existsByLatitudeAndLongitudeAndIsDeletedFalse(Double latitude, Double longitude);
 
     Optional<HubEntity> findByIdAndIsDeletedFalse(Long id);
 }

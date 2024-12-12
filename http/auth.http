@@ -1,0 +1,11 @@
+### 회원가입
+POST localhost:19045/api/auth/sign-up
+Content-Type: application/json
+
+{
+  "username": "user18",
+  "password": "#sparta17",
+  "nickname": "유저18",
+  "email": "user18@email.com",
+  "slack_id": "U08RFDJRQEB"
+}
