@@ -3,6 +3,7 @@ package com.jv_cc.flowmesh.hub_server.application.service;
 import com.jv_cc.flowmesh.hub_server.application.dto.HubDTO;
 import com.jv_cc.flowmesh.hub_server.application.exception.DuplicateHubCoordinatesException;
 import com.jv_cc.flowmesh.hub_server.application.exception.DuplicateHubNameException;
+import com.jv_cc.flowmesh.hub_server.application.exception.NotFoundHubException;
 import com.jv_cc.flowmesh.hub_server.domain.model.HubEntity;
 import com.jv_cc.flowmesh.hub_server.domain.repository.HubRepository;
 import com.jv_cc.flowmesh.hub_server.presentation.request.ReqHubPostDTO;
@@ -27,12 +28,7 @@ public class HubService {
             throw new DuplicateHubCoordinatesException();
         }
 
-        HubEntity hub = HubEntity.builder()
-                .name(dto.getName())
-                .address(dto.getAddress())
-                .latitude(dto.getLatitude())
-                .longitude(dto.getLongitude())
-                .build();
+        HubEntity hub = HubDTO.toEntity(dto);
 
         return HubDTO.of(hubRepository.save(hub));
     }
@@ -56,10 +52,10 @@ public class HubService {
     }
 
     private boolean checkDuplicateHubName(String name) {
-        return hubRepository.existsByNameAndDeletedAtIsNull(name);
+        return hubRepository.existsByNameAndIsDeletedFalse(name);
     }
 
     private boolean checkDuplicateHubCoordinates(double latitude, double longitude) {
-        return hubRepository.existsByLatitudeAndLongitudeAndDeletedAtIsNull(latitude, longitude);
+        return hubRepository.existsByLatitudeAndLongitudeAndIsDeletedFalse(latitude, longitude);
     }
 }
