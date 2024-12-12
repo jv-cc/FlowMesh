@@ -39,14 +39,7 @@ public class AuthController implements AuthControllerSwagger {
                         signupReqDto.getSlackId()
                 )
         );
-        log.info("User Signup Success, userId: {}", authDto.getId());
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add(JwtUtil.JwtHeader.KEY_ACCESS_TOKEN, authDto.getAccessToken());
-        headers.add(JwtUtil.JwtHeader.KEY_REFRESH_TOKEN, authDto.getRefreshToken());
-        headers.add(JwtUtil.JwtHeader.KEY_USER_ID, String.valueOf(authDto.getId()));
-        headers.add(JwtUtil.JwtHeader.KEY_USER_ROLE, String.valueOf(authDto.getRole()));
-        log.info("Add token information to header");
+        log.info("User Signup Success, userId: {}", metaDto.getId());
 
         return new ResponseEntity<>(
                 ResDTO.<SignupResDto>builder()
