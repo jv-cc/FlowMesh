@@ -1,7 +1,11 @@
 package com.jv_cc.flowmesh.hub_server.domain.model;
 
 import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -12,6 +16,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "p_hub")
 public class HubEntity {
@@ -57,13 +63,19 @@ public class HubEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
+    public void update(String name, String address, double latitude, double longitude) {
+        this.name = name;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public void markAsDelete(Long userId) {
         this.isDeleted = true;
         this.deletedAt = LocalDateTime.now();
         this.deletedBy = userId;
     }
 
-    @Builder
     public HubEntity(String name, String address, Double latitude, Double longitude, Long userId) {
         this.name = name;
         this.address = address;
