@@ -1,5 +1,6 @@
 package com.jv_cc.flowmesh.hub_server.domain.model;
 
+import com.jv_cc.flowmesh.hub_server.presentation.request.ReqHubPostDTO;
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -12,6 +13,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "p_hub")
 public class HubEntity {
@@ -63,7 +66,6 @@ public class HubEntity {
         this.deletedBy = userId;
     }
 
-    @Builder
     public HubEntity(String name, String address, Double latitude, Double longitude, Long userId) {
         this.name = name;
         this.address = address;
