@@ -31,6 +31,10 @@ public class HubDTO {
     public static HubDTO of(HubEntity hubEntity) {
         return HubDTO.builder()
                 .hubId(hubEntity.getId())
+                .name(hubEntity.getName())
+                .address(hubEntity.getAddress())
+                .latitude(hubEntity.getLatitude())
+                .longitude(hubEntity.getLongitude())
                 .build();
     }
 
