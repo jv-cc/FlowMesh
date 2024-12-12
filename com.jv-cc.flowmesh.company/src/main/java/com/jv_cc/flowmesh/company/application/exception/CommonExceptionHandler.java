@@ -11,6 +11,19 @@ import java.util.Map;
 @RestControllerAdvice
 public class CommonExceptionHandler {
 
+    @ExceptionHandler(HubException.class)
+    public ResponseEntity<Object> HubExceptionHandler(HubException e) {
+
+        Error error = e.getError();
+
+        return ResponseEntity
+                .status(e.getHttpStatus())
+                .body(Map.of(
+                        "code", error.getCode(),
+                        "message", error.getMessage()
+                ));
+    }
+
     @ExceptionHandler(CompanyException.class)
     public ResponseEntity<Object> CompanyExceptionHandler(CompanyException e) {
 
