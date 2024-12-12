@@ -1,8 +1,11 @@
 package com.jv_cc.flowmesh.hub_server.domain.model;
 
-import com.jv_cc.flowmesh.hub_server.presentation.request.ReqHubPostDTO;
 import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -59,6 +62,13 @@ public class HubEntity {
     @ColumnDefault("false")
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
+
+    public void update(String name, String address, double latitude, double longitude) {
+        this.name = name;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     public void markAsDelete(Long userId) {
         this.isDeleted = true;

@@ -13,6 +13,10 @@ import lombok.NoArgsConstructor;
 public class HubDTO {
 
     private Long hubId;
+    private String name;
+    private String address;
+    private double latitude;
+    private double longitude;
 
     public static HubDTO of(HubEntity hubEntity) {
         return HubDTO.builder()
