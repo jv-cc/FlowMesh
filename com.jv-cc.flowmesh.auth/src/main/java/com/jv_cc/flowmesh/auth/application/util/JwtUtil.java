@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Slf4j
@@ -44,6 +46,21 @@ public class JwtUtil {
                         .getBody()
                         .get(key)
         );
+    }
+
+    public LocalDateTime getIssuedAtFromToken(String token) {
+        token = token.substring(JwtHeader.VALUE_BEARER_PREFIX.length());
+
+        Date issuedAt = Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getIssuedAt();
+
+        return issuedAt.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
     }
 
     public boolean validateToken(String token) {
