@@ -36,27 +36,26 @@ public class JwtUtil {
         this.REFRESH_TOKEN_EXPIRATION_TIME = refreshExpiration;
     }
 
-    public String getClaimValueFromToken(String token, String key) {
+    private Claims getClaimValueFromToken(String token) {
         token = token.substring(JwtHeader.VALUE_BEARER_PREFIX.length());
-        return String.valueOf(
-                Jwts.parserBuilder()
+        return Jwts.parserBuilder()
                         .setSigningKey(SECRET_KEY)
                         .build()
                         .parseClaimsJws(token)
-                        .getBody()
-                        .get(key)
-        );
+                        .getBody();
+    }
+
+    public Long getUserIdFromToken(String token) {
+        return getClaimValueFromToken(token).get(USERID, Long.class);
+    }
+
+    public UserRoleEnum getUserRoleFromToken(String token) {
+        return getClaimValueFromToken(token).get(USERROLE, UserRoleEnum.class);
     }
 
     public LocalDateTime getIssuedAtFromToken(String token) {
-        token = token.substring(JwtHeader.VALUE_BEARER_PREFIX.length());
-
-        Date issuedAt = Jwts.parserBuilder()
-                .setSigningKey(SECRET_KEY)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getIssuedAt();
+        Claims claims = getClaimValueFromToken(token);
+        Date issuedAt = claims.getIssuedAt();
 
         return issuedAt.toInstant()
                 .atZone(ZoneId.systemDefault())
