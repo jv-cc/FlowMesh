@@ -4,6 +4,8 @@ import com.jv_cc.flowmesh.auth.domain.model.Auth;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface AuthRepository extends JpaRepository<Auth, Long> {
     boolean existsByUsername(String username);
@@ -13,4 +15,6 @@ public interface AuthRepository extends JpaRepository<Auth, Long> {
     boolean existsByNickname(String nickname);
 
     boolean existsBySlackId(String slackId);
+
+    Optional<Auth> findByUsernameAndIsDeletedFalse(String username);
 }

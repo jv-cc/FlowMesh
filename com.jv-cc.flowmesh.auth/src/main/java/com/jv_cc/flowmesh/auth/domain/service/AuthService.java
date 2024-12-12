@@ -1,10 +1,9 @@
 package com.jv_cc.flowmesh.auth.domain.service;
 
-import com.jv_cc.flowmesh.auth.application.dto.AuthDto;
-import com.jv_cc.flowmesh.auth.application.exception.UserExistEmailException;
-import com.jv_cc.flowmesh.auth.application.exception.UserExistNicknameException;
-import com.jv_cc.flowmesh.auth.application.exception.UserExistSlackidException;
-import com.jv_cc.flowmesh.auth.application.exception.UserExistUsernameException;
+import com.jv_cc.flowmesh.auth.application.dto.AuthTokenDto;
+import com.jv_cc.flowmesh.auth.application.dto.AuthUserDto;
+import com.jv_cc.flowmesh.auth.application.dto.UserMetaDto;
+import com.jv_cc.flowmesh.auth.application.exception.*;
 import com.jv_cc.flowmesh.auth.application.util.JwtUtil;
 import com.jv_cc.flowmesh.auth.domain.model.Auth;
 import com.jv_cc.flowmesh.auth.domain.repository.AuthRepository;
@@ -17,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j(topic = "AuthService")
 @Service
 @RequiredArgsConstructor
-public class AuthService{
+public class AuthService {
 
     private final AuthRepository authRepository;
     private final JwtUtil jwtUtil;
@@ -51,4 +50,29 @@ public class AuthService{
 
         return new UserMetaDto(auth.getId(), auth.getCreatedAt());
     }
+
+    @Transactional
+    public AuthTokenDto login(String username, String password) {
+        Auth auth = authRepository.findByUsernameAndIsDeletedFalse(username)
+                .orElseThrow(UserNotExistException::new);
+        log.info("Exist username: {}", username);
+
+        if (!passwordEncoder.matches(password, auth.getPassword())) {
+            throw new UserPasswordMismatchException();
+        }
+        log.info("Encrypted password match completed ");
+
+        String refreshToken = jwtUtil.generateRefreshToken(auth.getId(), auth.getRole());
+        auth.updateRefreshToken(refreshToken);
+        authRepository.save(auth);
+
+        return new AuthTokenDto(
+                auth.getId(),
+                auth.getRole(),
+                jwtUtil.generateAccessToken(auth.getId(), auth.getRole()),
+                refreshToken,
+                jwtUtil.getIssuedAtFromToken(refreshToken)
+        );
+    }
+
 }
