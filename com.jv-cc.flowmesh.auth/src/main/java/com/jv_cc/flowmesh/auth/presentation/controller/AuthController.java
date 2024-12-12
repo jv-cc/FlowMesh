@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -28,7 +30,6 @@ public class AuthController implements AuthControllerSwagger {
 
     @PostMapping("/sign-up")
     public ResponseEntity<ResDTO<SignupResDto>> signup(@Valid @RequestBody SignupReqDto signupReqDto) {
-        log.debug("signupReqDto: {}", signupReqDto.toString());
         UserMetaDto metaDto = authService.register(
                 new AuthUserDto(
                         signupReqDto.getUsername(),
@@ -65,7 +66,7 @@ public class AuthController implements AuthControllerSwagger {
         headers.add(JwtUtil.JwtHeader.KEY_REFRESH_TOKEN, tokenDto.getRefreshToken());
         headers.add(JwtUtil.JwtHeader.KEY_USER_ID, String.valueOf(tokenDto.getId()));
         headers.add(JwtUtil.JwtHeader.KEY_USER_ROLE, String.valueOf(tokenDto.getRole()));
-        log.info("Add token information to header");
+        log.info("Add token and user information to header");
 
         return new ResponseEntity<>(
                 ResDTO.<SigninResDto>builder()
@@ -80,4 +81,26 @@ public class AuthController implements AuthControllerSwagger {
         );
     }
 
+    @PostMapping("/token")
+    public ResponseEntity<ResDTO<Map<String, String>>> refreshToken(@RequestHeader(name= JwtUtil.JwtHeader.KEY_REFRESH_TOKEN) String refreshToken){
+        AuthTokenDto tokenDto =  authService.updateRefreshToken(refreshToken);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(JwtUtil.JwtHeader.KEY_ACCESS_TOKEN, tokenDto.getAccessToken());
+        headers.add(JwtUtil.JwtHeader.KEY_REFRESH_TOKEN, tokenDto.getRefreshToken());
+        log.info("Add token information to header");
+
+        return new ResponseEntity<>(
+                ResDTO.<Map<String, String>>builder()
+                        .code(HttpStatus.CREATED.value())
+                        .message("새로운 토큰이 발급되었습니다.")
+                        .data(Map.of(
+                                "created_at",
+                                tokenDto.getCreateAt().toString()
+                        ))
+                        .build(),
+                headers,
+                HttpStatus.CREATED
+        );
+    }
 }
