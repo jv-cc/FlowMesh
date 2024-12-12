@@ -76,6 +76,7 @@ public class AuthService {
         );
     }
 
+    @Transactional
     public AuthTokenDto updateRefreshToken(String refreshToken) {
         if (!jwtUtil.validateToken(refreshToken)) {
             throw new AuthInvalidTokenException();
