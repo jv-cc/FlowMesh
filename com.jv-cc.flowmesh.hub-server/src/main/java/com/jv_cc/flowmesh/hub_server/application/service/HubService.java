@@ -33,6 +33,13 @@ public class HubService {
         return HubDTO.of(hubRepository.save(hub));
     }
 
+    @Transactional(readOnly = true)
+    public HubDTO getHub(Long hubId) {
+        HubEntity hubEntity = getHubEntity(hubId);
+
+        return HubDTO.of(hubEntity);
+    }
+
     @Transactional
     public HubDTO modifyHub(Long hubId, ReqHubPostDTO dto) {
 
@@ -61,7 +68,7 @@ public class HubService {
     }
 
     private HubEntity getHubEntity(Long hubId) {
-        return hubRepository.findById(hubId).orElseThrow(NotFoundHubException::new);
+        return hubRepository.findByIdAndIsDeletedFalse(hubId).orElseThrow(NotFoundHubException::new);
     }
 
     private boolean checkDuplicateHubName(String name) {
