@@ -38,7 +38,7 @@ public class CompanyService {
     @Transactional
     public CompanyDTO modifyCompany(Long companyId, ReqCompanyPostDTO dto) {
 
-        CompanyEntity companyEntity = companyRepository.findById(companyId).orElseThrow(NotFoundCompanyException::new);
+        CompanyEntity companyEntity = getCompanyEntity(companyId);
 
         if (!hubClient.existsHubBy(dto.getHubId())) {
             throw new NotFoundHubException();
@@ -51,6 +51,20 @@ public class CompanyService {
         companyEntity.update(dto.getHubId(),dto.getName(), dto.getType(), dto.getAddress());
 
         return CompanyDTO.of(companyEntity);
+    }
+
+    @Transactional
+    public CompanyDTO deleteCompany(Long companyId) {
+
+        CompanyEntity companyEntity = getCompanyEntity(companyId);
+
+        companyEntity.markAsDelete();
+
+        return CompanyDTO.of(companyEntity);
+    }
+
+    private CompanyEntity getCompanyEntity(Long companyId) {
+        return companyRepository.findById(companyId).orElseThrow(NotFoundCompanyException::new);
     }
 
     private boolean checkDuplicateCompanyName(String companyName) {
