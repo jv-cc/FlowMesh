@@ -28,34 +28,13 @@ ext {
 }
 
 dependencies {
-	// postgres
-	runtimeOnly 'org.postgresql:postgresql'
-
-	// Jwt
-	compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
-	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-
-	// TSID
-	implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3.7.5'
-
-	// swagger
-	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.3.0'
-
-	// actuator
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-
-	// jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-	// spring cloud
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-
-	// web
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'

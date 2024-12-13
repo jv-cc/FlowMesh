@@ -28,7 +28,7 @@ ext {
 }
 
 dependencies {
-	// postgres
+	//postgres
 	runtimeOnly 'org.postgresql:postgresql'
 
 	// Jwt

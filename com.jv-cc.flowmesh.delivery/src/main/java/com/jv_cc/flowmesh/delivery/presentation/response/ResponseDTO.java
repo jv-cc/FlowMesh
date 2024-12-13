@@ -1,4 +1,5 @@
-package com.jv_cc.flowmesh.order_service.presentation.request;
+package com.jv_cc.flowmesh.delivery.presentation.response;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderRequestDTO {
+public class ResponseDTO<T> {
 
+    private Integer code;
+    private String message;
+    private T data;
 
 }

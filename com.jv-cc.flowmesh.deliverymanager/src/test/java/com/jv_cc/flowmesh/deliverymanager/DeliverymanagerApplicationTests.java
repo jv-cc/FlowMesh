@@ -1,10 +1,10 @@
-package com.jv_cc.flowmesh.order_service;
+package com.jv_cc.flowmesh.deliverymanager;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-//@SpringBootTest
-class OrderServiceApplicationTests {
+@SpringBootTest
+class DeliverymanagerApplicationTests {
 
 	@Test
 	void contextLoads() {
