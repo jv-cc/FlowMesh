@@ -72,6 +72,16 @@ public class Auth {
         this.deletedBy = userId;
         return this.deletedAt;
     }
+
+    public LocalDateTime updateUser (Long masterId, String nickname, String email, String slackId) {
+        this.nickname = nickname;
+        this.email = email;
+        this.slackId = slackId;
+        this.updatedAt = LocalDateTime.now();
+        this.updatedBy = masterId;
+        return this.updatedAt;
+    }
+
     @Builder
     public Auth(String username, String password, String email, String nickname, String slackId) {
         this.username = username;
