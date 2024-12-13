@@ -71,6 +71,10 @@ public class HubService {
         return hubRepository.findByIdAndIsDeletedFalse(hubId).orElseThrow(NotFoundHubException::new);
     }
 
+    public boolean getHubIdBy(Long hubId) {
+        return hubRepository.existsByIdAndIsDeletedFalse(hubId);
+    }
+
     private boolean checkDuplicateHubName(String name) {
         return hubRepository.existsByNameAndIsDeletedFalse(name);
     }
