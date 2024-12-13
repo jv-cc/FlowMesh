@@ -1,0 +1,3 @@
+DB_URL: jdbc:postgresql://localhost:5432/jvccdeliverymanager
+DB_USER : postgres
+DB_PASSWORD : Soccer9205#
