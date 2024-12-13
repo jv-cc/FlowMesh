@@ -1,9 +1,11 @@
 package com.jv_cc.flowmesh.company.presentation.controller;
 
+import com.jv_cc.flowmesh.company.application.dto.CompanyDTO;
 import com.jv_cc.flowmesh.company.application.service.CompanyService;
 import com.jv_cc.flowmesh.company.infrastructure.swagger.CompanyControllerSwagger;
 import com.jv_cc.flowmesh.company.presentation.request.ReqCompanyPostDTO;
 import com.jv_cc.flowmesh.company.presentation.response.ResCompanyDTO;
+import com.jv_cc.flowmesh.company.presentation.response.ResCompanyGetDTO;
 import com.jv_cc.flowmesh.company.presentation.response.ResDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,27 @@ public class CompanyController implements CompanyControllerSwagger {
                         .data(new ResCompanyDTO(companyService.createCompany(dto).getCompanyId()))
                         .build(),
                 HttpStatus.CREATED
+        );
+    }
+
+    @GetMapping("/{companyId}")
+    public ResponseEntity<ResDTO<ResCompanyGetDTO>> getCompany(Long companyId) {
+
+        CompanyDTO dto = companyService.getCompany(companyId);
+
+        return new ResponseEntity<>(
+                ResDTO.<ResCompanyGetDTO>builder()
+                        .code(HttpStatus.OK.value())
+                        .message("업체 조회에 성공했습니다.")
+                        .data(ResCompanyGetDTO.builder()
+                                .companyId(dto.getCompanyId())
+                                .hubId(dto.getHubId())
+                                .name(dto.getName())
+                                .type(dto.getType())
+                                .address(dto.getAddress())
+                                .build())
+                        .build(),
+                HttpStatus.OK
         );
     }
 
