@@ -3,11 +3,11 @@ POST localhost:19045/api/auth/sign-up
 Content-Type: application/json
 
 {
-  "username": "user12",
+  "username": "master",
   "password": "#sparta12",
-  "nickname": "유저12",
-  "email": "user12@email.com",
-  "slack_id": "U12RFDJRQEB"
+  "nickname": "마스터",
+  "email": "master@email.com",
+  "slack_id": "M12RFDJRQEB"
 }
 
 ### 로그인
@@ -15,7 +15,7 @@ POST localhost:19045/api/auth/sign-in
 Content-Type: application/json
 
 {
-  "username": "user12",
+  "username": "master",
   "password": "#sparta12"
 }
 
@@ -41,4 +41,15 @@ X-User-Role: MASTER
   "nickname": "매니저13",
   "email": "user13@email.com",
   "slack_id": "U13RFDJRQEB"
+}
+
+### 사용자 권한 변경
+PATCH localhost:19045/api/users/655384684086497877
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTUzODQ2ODQwODY0OTc4NzcsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDA5MjY5NywiZXhwIjoxNzM0MDkzMjk3fQ.djc3MN-wh8O8CYrnzdZuRvFbmn7SXNo3-Ytwwkn-MdBGKyQJJB63foytXM_1fqV5cVNvUr3GWAZxocAxZy3p6w
+X-User-Id: 655384684086497877
+X-User-Role: MASTER
+
+{
+  "role": "HUB_MANAGER"
 }
