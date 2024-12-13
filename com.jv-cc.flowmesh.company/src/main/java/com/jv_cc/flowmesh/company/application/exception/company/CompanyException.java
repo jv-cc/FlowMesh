@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class CompanyException extends RuntimeException {
 
-    com.jv_cc.flowmesh.company.application.exception.Error error;
+    Error error;
 
     HttpStatus httpStatus;
 
