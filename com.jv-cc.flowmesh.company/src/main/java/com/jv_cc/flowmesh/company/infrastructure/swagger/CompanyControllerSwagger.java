@@ -2,6 +2,7 @@ package com.jv_cc.flowmesh.company.infrastructure.swagger;
 
 import com.jv_cc.flowmesh.company.presentation.request.ReqCompanyPostDTO;
 import com.jv_cc.flowmesh.company.presentation.response.ResCompanyDTO;
+import com.jv_cc.flowmesh.company.presentation.response.ResCompanyGetDTO;
 import com.jv_cc.flowmesh.company.presentation.response.ResDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,6 +23,14 @@ public interface CompanyControllerSwagger {
     })
     @PostMapping("/api/company")
     ResponseEntity<ResDTO<ResCompanyDTO>> createCompany(@RequestBody ReqCompanyPostDTO dto);
+
+    @Operation(summary = "업체 단건 조회", description = "업체 ID를 통해 업체를 단건 조회하는 API 입니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "업체 단건 조회 성공", content = @Content(schema = @Schema(implementation = ResDTO.class))),
+            @ApiResponse(responseCode = "400", description = "업체 단건 조회 실패.", content = @Content(schema = @Schema(implementation = ResDTO.class)))
+    })
+    @GetMapping("/api/company/{companyId}")
+    ResponseEntity<ResDTO<ResCompanyGetDTO>> getCompany(@PathVariable Long companyId);
 
     @Operation(summary = "업체 수정", description = "사용자 ID를 통해 업체를 수정하는 API 입니다.")
     @ApiResponses(value = {
