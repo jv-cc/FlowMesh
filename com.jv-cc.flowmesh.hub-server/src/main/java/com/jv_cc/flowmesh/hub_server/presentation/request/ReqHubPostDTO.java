@@ -5,7 +5,7 @@ import lombok.*;
 @Getter
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
+//@AllArgsConstructor
 public class ReqHubPostDTO {
 
 

@@ -1,4 +1,4 @@
-package com.jv_cc.flowmesh.hub_server.application.exception;
+package com.jv_cc.flowmesh.auth.application.exception;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RequiredArgsConstructor
-//@RestControllerAdvice(basePackages = {"com.jv-cc.flowmesh.hub_server"})
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = {"com.jv-cc.flowmesh.auth"})
 public class CommonExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(HubException.class)
-    public ResponseEntity<Object> ReviewExceptionHandler(HubException e) {
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<Object> AuthExceptionHandler(AuthException e) {
 
         Error error = e.getError();
 
@@ -22,5 +21,4 @@ public class CommonExceptionHandler {
                 .status(error.getCode())
                 .body(error.getMessage());
     }
-
 }
