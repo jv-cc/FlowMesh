@@ -1,4 +1,4 @@
-package com.jv_cc.flowmesh.hub_server.application.dto;
+package com.jv_cc.flowmesh.auth.presentation.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
