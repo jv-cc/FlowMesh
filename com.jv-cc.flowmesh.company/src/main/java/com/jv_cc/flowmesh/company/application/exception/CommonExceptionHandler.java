@@ -1,5 +1,7 @@
 package com.jv_cc.flowmesh.company.application.exception;
 
+import com.jv_cc.flowmesh.company.application.exception.company.CompanyException;
+import com.jv_cc.flowmesh.company.application.exception.hub.HubException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
