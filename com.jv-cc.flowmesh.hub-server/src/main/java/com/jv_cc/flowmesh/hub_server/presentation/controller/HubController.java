@@ -53,6 +53,11 @@ public class HubController implements HubControllerSwagger {
         );
     }
 
+    @GetMapping("/{hubId}/client")
+    public boolean getHubIdBy(@PathVariable Long hubId){
+        return hubService.getHubIdBy(hubId);
+    }
+
     @PatchMapping("/{hubId}")
     public ResponseEntity<ResDTO<ResHubDTO>> modifyHub(@PathVariable Long hubId, ReqHubPostDTO dto) {
         return new ResponseEntity<>(

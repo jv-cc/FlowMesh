@@ -13,4 +13,6 @@ public interface HubRepository extends JpaRepository<HubEntity, Long>{
     boolean existsByLatitudeAndLongitudeAndIsDeletedFalse(Double latitude, Double longitude);
 
     Optional<HubEntity> findByIdAndIsDeletedFalse(Long id);
+
+    boolean existsByIdAndIsDeletedFalse(Long id);
 }
