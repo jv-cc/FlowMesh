@@ -1,5 +1,6 @@
-package com.jv_cc.flowmesh.company.application.exception;
+package com.jv_cc.flowmesh.company.application.exception.company;
 
+import com.jv_cc.flowmesh.company.application.exception.Error;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
