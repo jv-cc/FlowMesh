@@ -6,9 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -38,13 +36,13 @@ public class Auth {
     private String nickname;
 
     @Column(name = "slack_id", nullable = false)
-    private Long slack_id;
+    private String slackId;
 
     @Column(name = "role", nullable = false)
     private UserRoleEnum role;
 
     @Column(name = "refresh_token")
-    private String refresh_token;
+    private String refreshToken;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -72,19 +70,21 @@ public class Auth {
         this.isDeleted = true;
         this.deletedAt = LocalDateTime.now();
         this.deletedBy = userId;
-
         return this.deletedAt;
     }
-
-    public Auth(Long id, String username, String password, String email, String nickname, Long slack_id) {
-        this.id = id;
+    @Builder
+    public Auth(String username, String password, String email, String nickname, String slackId) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.nickname = nickname;
-        this.slack_id = slack_id;
+        this.slackId = slackId;
         this.role = UserRoleEnum.CUSTOMER;
         this.createdAt = LocalDateTime.now();
+    }
+
+    public void updateRefreshToken(String refresh_token) {
+        this.refreshToken = refresh_token;
     }
 
 }
