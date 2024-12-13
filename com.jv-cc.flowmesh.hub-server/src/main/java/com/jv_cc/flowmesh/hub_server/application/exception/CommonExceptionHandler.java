@@ -1,8 +1,10 @@
 package com.jv_cc.flowmesh.hub_server.application.exception;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Map;
@@ -12,7 +14,7 @@ import java.util.Map;
 public class CommonExceptionHandler {
 
     @ExceptionHandler(HubException.class)
-    public ResponseEntity<Object> HubExceptionHandler(HubException e) {
+    public ResponseEntity<Object> ReviewExceptionHandler(HubException e) {
 
         Error error = e.getError();
 
