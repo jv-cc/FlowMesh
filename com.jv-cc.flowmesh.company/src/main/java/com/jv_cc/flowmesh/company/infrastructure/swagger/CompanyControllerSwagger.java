@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -24,5 +26,12 @@ public interface CompanyControllerSwagger {
     @PostMapping("/api/company")
     ResponseEntity<ResDTO<ResCompanyDTO>> createCompany(@RequestBody ReqCompanyPostDTO dto);
 
+    @Operation(summary = "업체 수정", description = "사용자 ID를 통해 업체를 수정하는 API 입니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "업체 수정 성공", content = @Content(schema = @Schema(implementation = ResDTO.class))),
+            @ApiResponse(responseCode = "400", description = "업체 수정 실패.", content = @Content(schema = @Schema(implementation = ResDTO.class)))
+    })
+    @PatchMapping("/api/company/{companyId}")
+    ResponseEntity<ResDTO<ResCompanyDTO>> modifyCompany(@PathVariable Long companyId, @RequestBody ReqCompanyPostDTO dto);
 
 }
