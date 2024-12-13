@@ -5,8 +5,13 @@ import com.jv_cc.flowmesh.auth.application.exception.*;
 import com.jv_cc.flowmesh.auth.domain.model.Auth;
 import com.jv_cc.flowmesh.auth.domain.model.UserRoleEnum;
 import com.jv_cc.flowmesh.auth.domain.repository.AuthRepository;
+import com.jv_cc.flowmesh.auth.presentation.request.SearchReqDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,10 +42,8 @@ public class UserService {
     }
 
     @Transactional
-    public LocalDateTime updateUser(UserInfoDto infoDto, Long tokenUserId, String tokenUserRole) {
-        if (!tokenUserRole.equals(UserRoleEnum.MASTER.toString())) {
-            throw new AuthInvalidTokenException();
-        }
+    public LocalDateTime updateUser(UserInfoDto infoDto, Long tokenUserId, UserRoleEnum tokenUserRole) {
+        this.requireMaster(tokenUserRole);
 
         Auth user = getEntity(infoDto.getId());
 
@@ -62,8 +65,31 @@ public class UserService {
         );
     }
 
+    @Transactional(readOnly = true)
+    public Page<UserInfoDto> searchUser(SearchReqDto reqDto, UserRoleEnum tokenUserRole) {
+        requireMaster(tokenUserRole);
+
+        Sort sort = Sort.by(reqDto.getOrder().getDirection(), reqDto.getSort().getLabel());
+        Pageable pageable = PageRequest.of(
+                reqDto.getPage(), reqDto.getLimit(), sort
+        );
+        Page<Auth> userList = authRepository.findAllByUsernameAndIsDeletedFalse(reqDto.getUsername(), pageable);
+        log.info("User list size: {}", userList.getTotalElements());
+
+        userList.map(UserInfoDto::new).getContent().forEach(dto -> System.out.println("dto = " + dto));
+        return userList.map(UserInfoDto::new);
+    }
+
     private Auth getEntity(Long userId) {
         return authRepository.findByIdAndIsDeletedFalse(userId)
                 .orElseThrow(UserNotExistException::new);
+    }
+
+    private void requireMaster(UserRoleEnum roleEnum) {
+        if (roleEnum.equals(UserRoleEnum.MASTER)) {
+            log.info("User is master role");
+        } else {
+            throw new AuthInvalidTokenException();
+        }
     }
 }
