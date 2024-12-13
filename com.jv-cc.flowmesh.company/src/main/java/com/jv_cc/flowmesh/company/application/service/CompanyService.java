@@ -10,6 +10,7 @@ import com.jv_cc.flowmesh.company.presentation.request.ReqCompanyPostDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class CompanyService {
     private final CompanyRepository companyRepository;
     private final HubClient hubClient;
 
+    @Transactional
     public CompanyDTO createCompany(ReqCompanyPostDTO dto) {
         log.info("Hub ID: {}", dto.getHubId());
 
