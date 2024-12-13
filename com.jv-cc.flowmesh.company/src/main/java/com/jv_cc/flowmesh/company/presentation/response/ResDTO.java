@@ -1,4 +1,4 @@
-package com.jv_cc.flowmesh.hub_server.application.dto;
+package com.jv_cc.flowmesh.company.presentation.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,3 +14,4 @@ public class ResDTO<T> {
     private String message;
     private T data;
 }
+

@@ -1,0 +1,31 @@
+### 회원가입
+POST localhost:19045/api/auth/sign-up
+Content-Type: application/json
+
+{
+  "username": "user12",
+  "password": "#sparta12",
+  "nickname": "유저12",
+  "email": "user12@email.com",
+  "slack_id": "U12RFDJRQEB"
+}
+
+### 로그인
+POST localhost:19045/api/auth/sign-in
+Content-Type: application/json
+
+{
+  "username": "user12",
+  "password": "#sparta12"
+}
+
+### 토큰 재발급
+POST localhost:19045/api/auth/token
+Content-Type: application/json
+X-Refresh-Token: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTQ5NTk5MjIyMDYxMjY4MzIsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDAyMDg3NSwiZXhwIjoxNzM0MDMxNjc1fQ.fObp0tyF3ayWFoPPilou5_uObKRerAsnyoxvXZDSwNvZYspeCO4HQsnZGexQwjrBnKOrp0Qcxxwpogw-WtGrmA
+
+### 사용자 정보 조회 (자신)
+GET localhost:19045/api/users/654959922206126832
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTQ5NTk5MjIyMDYxMjY4MzIsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDAyMTAxMywiZXhwIjoxNzM0MDIxNjEzfQ.czHcWtuf8gXj2IE0otT724dvMtIb49pONZnK7HlistXHykjlC7F6GTOCahwayMVPnNhYpKbG16xhD-6w3pzqFQ
+X-User-Id: 654959922206126832
