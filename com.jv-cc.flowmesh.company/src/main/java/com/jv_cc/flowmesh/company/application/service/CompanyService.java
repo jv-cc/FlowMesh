@@ -74,6 +74,10 @@ public class CompanyService {
         return companyRepository.findByIdAndIsDeletedFalse(companyId).orElseThrow(NotFoundCompanyException::new);
     }
 
+    public boolean getCompanyIdBy(Long companyId) {
+        return companyRepository.existsByIdAndIsDeletedFalse((companyId));
+    }
+
     private boolean checkDuplicateCompanyName(String companyName) {
         return companyRepository.existsByNameAndIsDeletedFalse(companyName);
     }
