@@ -40,4 +40,16 @@ public class CompanyController implements CompanyControllerSwagger {
                 HttpStatus.OK
         );
     }
+
+    @DeleteMapping("/{companyId}")
+    public ResponseEntity<ResDTO<ResCompanyDTO>> deleteCompany(@PathVariable Long companyId) {
+        return new ResponseEntity<>(
+                ResDTO.<ResCompanyDTO>builder()
+                        .code(HttpStatus.OK.value())
+                        .message("업체가 삭제되었습니다.")
+                        .data(new ResCompanyDTO(companyService.deleteCompany(companyId).getCompanyId()))
+                        .build(),
+                HttpStatus.OK
+        );
+    }
 }
