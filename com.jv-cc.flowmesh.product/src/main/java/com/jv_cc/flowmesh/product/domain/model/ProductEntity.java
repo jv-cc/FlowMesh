@@ -5,6 +5,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -82,5 +83,13 @@ public class ProductEntity {
         this.quantity = quantity;
         this.createdBy = userId;
         this.updatedBy = userId;
+    }
+
+    public void update(Long hubId, Long companyId,String name, int price,int quantity) {
+        this.hubId = hubId;
+        this.companyId = companyId;
+        this.name = name;
+        this.price = price;
+        this.quantity = quantity;
     }
 }

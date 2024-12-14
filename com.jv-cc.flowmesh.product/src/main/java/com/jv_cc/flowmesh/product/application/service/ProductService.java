@@ -4,6 +4,7 @@ import com.jv_cc.flowmesh.product.application.dto.ProductDTO;
 import com.jv_cc.flowmesh.product.application.exception.company.NotFoundCompanyException;
 import com.jv_cc.flowmesh.product.application.exception.hub.NotFoundHubException;
 import com.jv_cc.flowmesh.product.application.exception.product.DuplicateProductNameException;
+import com.jv_cc.flowmesh.product.application.exception.product.NotFoundProductException;
 import com.jv_cc.flowmesh.product.domain.model.ProductEntity;
 import com.jv_cc.flowmesh.product.domain.repository.ProductRepository;
 import com.jv_cc.flowmesh.product.infrastructure.client.CompanyClient;
@@ -24,11 +25,11 @@ public class ProductService {
     @Transactional
     public ProductDTO createProduct(ReqProductPostDTO dto) {
 
-        if (!hubClient.existsHubBy(dto.getHubId())) {
+        if (!isexistsHubBy(dto.getHubId())) {
             throw new NotFoundHubException();
         }
 
-        if(!companyClient.existsCompanyBy(dto.getCompanyId())) {
+        if(!isExistsCompanyBy(dto.getCompanyId())) {
             throw new NotFoundCompanyException();
         }
 
@@ -39,5 +40,37 @@ public class ProductService {
         ProductEntity productEntity = ProductDTO.toEntity(dto);
 
         return ProductDTO.of(productRepository.save(productEntity));
+    }
+
+
+
+    @Transactional
+    public ProductDTO modifyProduct(Long productId, ReqProductPostDTO dto) {
+
+        ProductEntity productEntity = productRepository.findByIdAndIsDeletedFalse(productId).orElseThrow(NotFoundProductException::new);
+
+        if (!isexistsHubBy(dto.getHubId())) {
+            throw new NotFoundHubException();
+        }
+
+        if(!isExistsCompanyBy(dto.getCompanyId())) {
+            throw new NotFoundCompanyException();
+        }
+
+        if(productRepository.existsByNameAndIsDeletedFalse(dto.getName())){
+            throw new DuplicateProductNameException();
+        }
+
+        productEntity.update(dto.getHubId(), dto.getCompanyId(), dto.getName(), dto.getPrice(), dto.getQuantity());
+
+        return ProductDTO.of(productEntity);
+    }
+
+    private boolean isexistsHubBy(Long hubId) {
+        return hubClient.existsHubBy(hubId);
+    }
+
+    private boolean isExistsCompanyBy(Long companyId) {
+        return companyClient.existsCompanyBy(companyId);
     }
 }

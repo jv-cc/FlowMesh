@@ -8,10 +8,7 @@ import com.jv_cc.flowmesh.product.presentation.response.ResProductDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,5 +28,17 @@ public class ProductController implements ProductControllerSwagger {
                 HttpStatus.CREATED
         );
 
+    }
+
+    @PatchMapping("/{productId}")
+    public ResponseEntity<ResDTO<ResProductDTO>> modifyProduct(@PathVariable Long productId, @RequestBody ReqProductPostDTO dto) {
+        return new ResponseEntity<>(
+                ResDTO.<ResProductDTO>builder()
+                        .code(HttpStatus.OK.value())
+                        .message("상품이 수정되었습니다.")
+                        .data(new ResProductDTO(productService.modifyProduct(productId, dto).getProductId()))
+                        .build(),
+                HttpStatus.OK
+        );
     }
 }
