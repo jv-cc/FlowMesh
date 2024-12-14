@@ -22,6 +22,6 @@ public interface ProductControllerSwagger {
             @ApiResponse(responseCode = "400", description = "상품 생성 실패.", content = @Content(schema = @Schema(implementation = ResDTO.class)))
     })
     @PostMapping("/api/product")
-    ResponseEntity<ResDTO<ResProductDTO>> createHub(@RequestBody ReqProductPostDTO dto);
+    ResponseEntity<ResDTO<ResProductDTO>> createProduct(@RequestBody ReqProductPostDTO dto);
 
 }
