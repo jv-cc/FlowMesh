@@ -43,6 +43,24 @@ X-User-Role: MASTER
   "slack_id": "U13RFDJRQEB"
 }
 
+### 사용자 비활성화
+DELETE localhost:19045/api/users/655372676215485299
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTQ5NTk5MjIyMDYxMjY4MzIsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDA1ODMyMiwiZXhwIjoxNzM0MDU4OTIyfQ.kzrnCOAOt-CAH3KdnLoVABA4qCOfeA4GZ3TOMv4pfKj58kh6W3IM1N9iVKQ_tsov0QSBlzf9TOlgKBKfXFxrqQ
+X-User-Id: 655372676215485299
+X-User-Role: MASTER
+
+### 사용자 권한 변경
+PATCH localhost:19045/api/users/655384684086497877
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTUzODQ2ODQwODY0OTc4NzcsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDA5MjY5NywiZXhwIjoxNzM0MDkzMjk3fQ.djc3MN-wh8O8CYrnzdZuRvFbmn7SXNo3-Ytwwkn-MdBGKyQJJB63foytXM_1fqV5cVNvUr3GWAZxocAxZy3p6w
+X-User-Id: 655384684086497877
+X-User-Role: MASTER
+
+{
+  "role": "HUB_MANAGER"
+}
+
 ### 사용자 검색
 GET localhost:19045/api/users?username=user12&page=0&limit=10&sort=USERNAME&order=ASC
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTU0MjMwMDUyODE1Mzg3NzYsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDEwMTgyNSwiZXhwIjoxNzM0MTAyNDI1fQ.sKta_xTRavvoP4xmi48Akj4-GoWnOdy2PIZJ4Og9JkpHCZGCnJ8wd4b2Eh2yltKB80MIioUqTeqD-YKNLb_8BA

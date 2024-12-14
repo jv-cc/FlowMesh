@@ -65,6 +65,28 @@ public class UserService {
         );
     }
 
+    @Transactional
+    public LocalDateTime updateRole(Long userId, UserRoleEnum role, Long tokenUserId, UserRoleEnum tokenUserRole) {
+        this.requireMaster(tokenUserRole);
+
+        Auth user = this.getEntity(userId);
+        user.updateRole(tokenUserId, role);
+        log.info("Role changed successfully, userId: {}, role: {}", user.getId(), user.getRole());
+
+        return user.getUpdatedAt();
+    }
+
+    @Transactional
+    public LocalDateTime deleteUser(Long userId, Long tokenUserId, UserRoleEnum tokenUserRole) {
+        this.requireMaster(tokenUserRole);
+        log.info("Master permission verified");
+
+        Auth user = this.getEntity(userId);
+        user.markAsDelete(tokenUserId);
+
+        return user.getDeletedAt();
+    }
+
     @Transactional(readOnly = true)
     public Page<UserInfoDto> searchUser(SearchReqDto reqDto, UserRoleEnum tokenUserRole) {
         requireMaster(tokenUserRole);
