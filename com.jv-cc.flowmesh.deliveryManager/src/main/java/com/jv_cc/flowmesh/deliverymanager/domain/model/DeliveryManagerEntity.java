@@ -1,14 +1,9 @@
 package com.jv_cc.flowmesh.deliverymanager.domain.model;
 
 import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,6 +12,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "p_delivery_manager")
 public class DeliveryManagerEntity {
@@ -33,12 +30,12 @@ public class DeliveryManagerEntity {
     @Column(name = "hub_id", nullable = false)
     private Long hubId;
 
-    @Column(name = "slack_id", nullable = false)
-    private Long slackId;
-
     @Column(name = "type", nullable = false)
     private DeliveryManagerEnum type;
 
+    /*
+     * TODO: 자동 값 상승하는 방법 찾기 GeneratedValue 안 먹힘
+     * */
     @Column(name = "sequence", nullable = false)
     private Long sequence;
 

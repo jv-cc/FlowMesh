@@ -4,7 +4,7 @@ import com.jv_cc.flowmesh.deliverymanager.presentation.request.DeliveryManagerPo
 
 public class DeliveryManagerDTO {
 
-    public DeliveryManagerDTO(DeliveryManagerPostDTO deliveryManagerPostDTO) {
+    public DeliveryManagerDTO(DeliveryManagerPostDTO dto) {
 
     }
 }

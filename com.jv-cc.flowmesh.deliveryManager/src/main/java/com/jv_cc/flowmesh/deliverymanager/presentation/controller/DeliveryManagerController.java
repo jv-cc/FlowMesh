@@ -1,8 +1,10 @@
 package com.jv_cc.flowmesh.deliverymanager.presentation.controller;
 
+import com.jv_cc.flowmesh.deliverymanager.application.dto.DeliveryManagerCreateDTO;
 import com.jv_cc.flowmesh.deliverymanager.application.dto.DeliveryManagerDTO;
 import com.jv_cc.flowmesh.deliverymanager.application.service.DeliveryManagerService;
 import com.jv_cc.flowmesh.deliverymanager.presentation.request.DeliveryManagerPostDTO;
+import com.jv_cc.flowmesh.deliverymanager.presentation.response.DeliveryManagerPostResponseDTO;
 import com.jv_cc.flowmesh.deliverymanager.presentation.response.DeliveryManagerResponseDTO;
 import com.jv_cc.flowmesh.deliverymanager.presentation.response.ResponseDTO;
 import jakarta.validation.Valid;
@@ -20,14 +22,14 @@ public class DeliveryManagerController {
     private final DeliveryManagerService deliveryManagerService;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<DeliveryManagerResponseDTO>> createDeliveryManager(@Valid @RequestBody DeliveryManagerPostDTO dto) {
-        DeliveryManagerDTO deliveryManagerDTO = new DeliveryManagerDTO(dto);
+    public ResponseEntity<ResponseDTO<DeliveryManagerPostResponseDTO>> createDeliveryManager(@Valid @RequestBody DeliveryManagerPostDTO dto) {
+        DeliveryManagerCreateDTO deliveryManagerCreateDTO = new DeliveryManagerCreateDTO(dto);
 
-        deliveryManagerDTO = deliveryManagerService.createDeliveryManager(deliveryManagerDTO);
+        deliveryManagerCreateDTO = deliveryManagerService.createDeliveryManager(deliveryManagerCreateDTO);
 
-        DeliveryManagerResponseDTO deliveryManagerResponseDTO = new DeliveryManagerResponseDTO(deliveryManagerDTO);
+        DeliveryManagerPostResponseDTO deliveryManagerResponseDTO = deliveryManagerCreateDTO.toResponseDTO();
 
-        return new ResponseEntity<>(ResponseDTO.<DeliveryManagerResponseDTO>builder()
+        return new ResponseEntity<>(ResponseDTO.<DeliveryManagerPostResponseDTO>builder()
                     .code(HttpStatus.CREATED.value())
                     .message("배송 담당자가 생성되었습니다.")
                     .data(deliveryManagerResponseDTO)
@@ -35,6 +37,7 @@ public class DeliveryManagerController {
                     HttpStatus.CREATED
                 );
     }
+
     /**
      * TODO : RequestDTO 바꿔야 함, DeliveryManagerResponseDTO 바꿔야 함
      */
