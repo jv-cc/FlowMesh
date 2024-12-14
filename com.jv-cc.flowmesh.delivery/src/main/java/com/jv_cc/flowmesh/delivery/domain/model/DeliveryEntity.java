@@ -18,29 +18,42 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "p_delivery_manager")
-public class DeliveryManagerEntity {
+@Table(name = "p_delivery")
+public class DeliveryEntity {
 
     @Id @Tsid
-    @Column(name = "delivery_manager_id")
-    private Long deliveryManagerId;
+    @Column(name = "delivery_id")
+    private Long deliveryId;
 
     @Tsid
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Column(name = "order_id", nullable = false)
+    private Long orderId;
 
     @Tsid
-    @Column(name = "hub_id", nullable = false)
-    private Long hubId;
+    @Column(name = "dm_id")
+    private Long deliveryManagerId;     //업체 배송 담당자 => 생성시 확정하면 안 됨
 
-    @Column(name = "slack_id", nullable = false)
-    private Long slackId;
+    @Tsid
+    @Column(name = "start_hub_id", nullable = false)
+    private Long startHubId;
 
-    @Column(name = "type", nullable = false)
-    private DeliveryManagerEnum type;
+    @Tsid
+    @Column(name = "end_hub_id", nullable = false)
+    private Long endHubId;
 
-    @Column(name = "sequence", nullable = false)
-    private Long sequence;
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @Tsid
+    @Column(name = "recipient_id", nullable = false)
+    private Long recipientId;
+
+    @Tsid
+    @Column(name = "message_id", nullable = false)
+    private Long messageId;
+
+    @Column(name = "current_status", nullable = false)
+    private DeliveryEnum currentStatus;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)

@@ -4,11 +4,11 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public class DeliveryManagerException extends RuntimeException {
+public class DeliveryException extends RuntimeException {
     Error error;
     HttpStatus httpStatus;
 
-    public DeliveryManagerException(Error error, HttpStatus httpStatus) {
+    public DeliveryException(Error error, HttpStatus httpStatus) {
         this.error = error;
         this.httpStatus = httpStatus;
     }

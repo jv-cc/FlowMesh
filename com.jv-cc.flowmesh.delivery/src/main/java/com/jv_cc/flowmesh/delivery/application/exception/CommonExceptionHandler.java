@@ -11,8 +11,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CommonExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> DeliveryManagerExceptionHandler(DeliveryManagerException e) {
+    @ExceptionHandler(DeliveryException.class)
+    public ResponseEntity<Map<String, Object>> DeliveryExceptionHandler(DeliveryException e) {
         Error error = e.getError();
 
         return ResponseEntity

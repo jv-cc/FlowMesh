@@ -1,0 +1,23 @@
+server:
+  port: 19080
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+  config:
+    import: classpath:application-key.yml
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:19040/eureka
