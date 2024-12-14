@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,6 @@ public interface ProductControllerSwagger {
             @ApiResponse(responseCode = "200", description = "상품 수정 성공", content = @Content(schema = @Schema(implementation = ResDTO.class))),
             @ApiResponse(responseCode = "400", description = "상품 수정 실패.", content = @Content(schema = @Schema(implementation = ResDTO.class)))
     })
-    @PostMapping("/api/product/{productId}")
+    @PatchMapping("/api/product/{productId}")
     ResponseEntity<ResDTO<ResProductDTO>> modifyProduct(@PathVariable Long productId, @RequestBody ReqProductPostDTO dto);
 }
