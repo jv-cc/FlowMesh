@@ -75,7 +75,7 @@ public class CompanyService {
     }
 
     public boolean getCompanyIdBy(Long companyId) {
-        return companyRepository.existsByIdAndIsDeletedFalse((companyId));
+        return companyRepository.existsByIdAndIsDeletedFalse(companyId);
     }
 
     private boolean checkDuplicateCompanyName(String companyName) {

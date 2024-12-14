@@ -42,7 +42,13 @@ public class ProductService {
         return ProductDTO.of(productRepository.save(productEntity));
     }
 
+    @Transactional(readOnly = true)
+    public ProductDTO getProduct(Long productId) {
 
+        ProductEntity productEntity = getProductEntity(productId);
+
+        return ProductDTO.of(productEntity);
+    }
 
     @Transactional
     public ProductDTO modifyProduct(Long productId, ReqProductPostDTO dto) {

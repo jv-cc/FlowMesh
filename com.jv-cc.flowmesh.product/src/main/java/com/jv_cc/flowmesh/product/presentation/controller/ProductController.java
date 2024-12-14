@@ -1,10 +1,12 @@
 package com.jv_cc.flowmesh.product.presentation.controller;
 
+import com.jv_cc.flowmesh.product.application.dto.ProductDTO;
 import com.jv_cc.flowmesh.product.application.service.ProductService;
 import com.jv_cc.flowmesh.product.infrastructure.swagger.ProductControllerSwagger;
 import com.jv_cc.flowmesh.product.presentation.request.ReqProductPostDTO;
 import com.jv_cc.flowmesh.product.presentation.response.ResDTO;
 import com.jv_cc.flowmesh.product.presentation.response.ResProductDTO;
+import com.jv_cc.flowmesh.product.presentation.response.ResProductGetDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,28 @@ public class ProductController implements ProductControllerSwagger {
                 HttpStatus.CREATED
         );
 
+    }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<ResDTO<ResProductGetDTO>> getProduct(@PathVariable Long productId) {
+
+        ProductDTO dto = productService.getProduct(productId);
+
+        return new ResponseEntity<>(
+                ResDTO.<ResProductGetDTO>builder()
+                        .code(HttpStatus.OK.value())
+                        .message("상품 조회에 성공했습니다.")
+                        .data(ResProductGetDTO.builder()
+                                .productId(dto.getCompanyId())
+                                .hubId(dto.getHubId())
+                                .companyId(dto.getCompanyId())
+                                .name(dto.getName())
+                                .price(dto.getPrice())
+                                .quantity(dto.getQuantity())
+                                .build())
+                        .build(),
+                HttpStatus.OK
+        );
     }
 
     @PatchMapping("/{productId}")
