@@ -2,6 +2,7 @@ package com.jv_cc.flowmesh.auth.presentation.controller;
 
 import com.jv_cc.flowmesh.auth.application.dto.UserInfoDto;
 import com.jv_cc.flowmesh.auth.application.util.JwtUtil;
+import com.jv_cc.flowmesh.auth.domain.model.UserRoleEnum;
 import com.jv_cc.flowmesh.auth.domain.service.UserService;
 import com.jv_cc.flowmesh.auth.presentation.response.ResDTO;
 import com.jv_cc.flowmesh.auth.presentation.request.UserReqDto;
@@ -48,7 +49,7 @@ public class UserController {
 
     @PutMapping("/{users_id}")
     public ResponseEntity<ResDTO<Map<String, String>>> updateUser(
-            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ROLE) String tokenUserRole,
+            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ROLE) UserRoleEnum tokenUserRole,
             @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ID) Long tokenUserId,
             @NotNull @PathVariable(value = "users_id") Long userId,
             @RequestBody UserReqDto reqDto
@@ -68,6 +69,26 @@ public class UserController {
                         .message("사용자의 정보가 변경됐습니다.")
                         .data(Map.of(
                                 "updated_at", String.valueOf(updateAt)
+                        ))
+                        .build(),
+                HttpStatus.OK
+        );
+    }
+
+    @DeleteMapping("/{users_id}")
+    public ResponseEntity<ResDTO<Map<String, String>>> deleteUser(
+            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ROLE) UserRoleEnum tokenUserRole,
+            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ID) Long tokenUserId,
+            @NotNull @PathVariable(value = "users_id") Long userId
+    ){
+        LocalDateTime deletedAt = userService.deleteUser(userId, tokenUserId, tokenUserRole);
+
+        return new ResponseEntity<>(
+                ResDTO.<Map<String, String>>builder()
+                        .code(HttpStatus.OK.value())
+                        .message("사용자가 비활성화 됐습니다.")
+                        .data(Map.of(
+                                "deleted_at", String.valueOf(deletedAt)
                         ))
                         .build(),
                 HttpStatus.OK

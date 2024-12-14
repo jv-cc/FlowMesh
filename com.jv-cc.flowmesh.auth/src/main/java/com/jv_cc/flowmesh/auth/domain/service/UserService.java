@@ -37,10 +37,8 @@ public class UserService {
     }
 
     @Transactional
-    public LocalDateTime updateUser(UserInfoDto infoDto, Long tokenUserId, String tokenUserRole) {
-        if (!tokenUserRole.equals(UserRoleEnum.MASTER.toString())) {
-            throw new AuthInvalidTokenException();
-        }
+    public LocalDateTime updateUser(UserInfoDto infoDto, Long tokenUserId, UserRoleEnum tokenUserRole) {
+        this.requireMaster(tokenUserRole);
 
         Auth user = getEntity(infoDto.getId());
 
@@ -62,8 +60,27 @@ public class UserService {
         );
     }
 
+    @Transactional
+    public LocalDateTime deleteUser(Long userId, Long tokenUserId, UserRoleEnum tokenUserRole) {
+        this.requireMaster(tokenUserRole);
+        log.info("Master permission verified");
+
+        Auth user = this.getEntity(userId);
+        user.markAsDelete(tokenUserId);
+
+        return user.getDeletedAt();
+    }
+
     private Auth getEntity(Long userId) {
         return authRepository.findByIdAndIsDeletedFalse(userId)
                 .orElseThrow(UserNotExistException::new);
+    }
+
+    private void requireMaster(UserRoleEnum roleEnum) {
+        if (roleEnum.equals(UserRoleEnum.MASTER)) {
+            log.info("User is master role");
+        } else {
+            throw new AuthInvalidTokenException();
+        }
     }
 }
