@@ -71,6 +71,17 @@ public class UserService {
         return user.getUpdatedAt();
     }
 
+    @Transactional
+    public LocalDateTime deleteUser(Long userId, Long tokenUserId, UserRoleEnum tokenUserRole) {
+        this.requireMaster(tokenUserRole);
+        log.info("Master permission verified");
+
+        Auth user = this.getEntity(userId);
+        user.markAsDelete(tokenUserId);
+
+        return user.getDeletedAt();
+    }
+
     private Auth getEntity(Long userId) {
         return authRepository.findByIdAndIsDeletedFalse(userId)
                 .orElseThrow(UserNotExistException::new);

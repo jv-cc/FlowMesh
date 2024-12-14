@@ -3,11 +3,11 @@ POST localhost:19045/api/auth/sign-up
 Content-Type: application/json
 
 {
-  "username": "master",
+  "username": "user12",
   "password": "#sparta12",
-  "nickname": "마스터",
-  "email": "master@email.com",
-  "slack_id": "M12RFDJRQEB"
+  "nickname": "유저12",
+  "email": "user12@email.com",
+  "slack_id": "U12RFDJRQEB"
 }
 
 ### 로그인
@@ -15,7 +15,7 @@ POST localhost:19045/api/auth/sign-in
 Content-Type: application/json
 
 {
-  "username": "master",
+  "username": "user12",
   "password": "#sparta12"
 }
 
@@ -42,6 +42,13 @@ X-User-Role: MASTER
   "email": "user13@email.com",
   "slack_id": "U13RFDJRQEB"
 }
+
+### 사용자 비활성화
+DELETE localhost:19045/api/users/655372676215485299
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTQ5NTk5MjIyMDYxMjY4MzIsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDA1ODMyMiwiZXhwIjoxNzM0MDU4OTIyfQ.kzrnCOAOt-CAH3KdnLoVABA4qCOfeA4GZ3TOMv4pfKj58kh6W3IM1N9iVKQ_tsov0QSBlzf9TOlgKBKfXFxrqQ
+X-User-Id: 655372676215485299
+X-User-Role: MASTER
 
 ### 사용자 권한 변경
 PATCH localhost:19045/api/users/655384684086497877
