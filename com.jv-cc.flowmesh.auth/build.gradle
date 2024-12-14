@@ -28,6 +28,15 @@ ext {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+
+	// querydsl
+	implementation "com.querydsl:querydsl-jpa:5.0.0:jakarta"
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+	implementation 'org.jetbrains:annotations:24.1.0'
+
 	// postgres
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.4'
 	runtimeOnly 'org.postgresql:postgresql'

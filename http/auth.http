@@ -60,3 +60,8 @@ X-User-Role: MASTER
 {
   "role": "HUB_MANAGER"
 }
+
+### 사용자 검색
+GET localhost:19045/api/users?username=user12&page=0&limit=10&sort=USERNAME&order=ASC
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTU0MjMwMDUyODE1Mzg3NzYsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDEwMTgyNSwiZXhwIjoxNzM0MTAyNDI1fQ.sKta_xTRavvoP4xmi48Akj4-GoWnOdy2PIZJ4Og9JkpHCZGCnJ8wd4b2Eh2yltKB80MIioUqTeqD-YKNLb_8BA
+X-User-Role: MASTER
