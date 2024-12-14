@@ -3,11 +3,11 @@ POST localhost:19045/api/auth/sign-up
 Content-Type: application/json
 
 {
-  "username": "user13",
-  "password": "#sparta13",
-  "nickname": "유저13",
-  "email": "user1213@email.com",
-  "slack_id": "U1213RFDJRQEB"
+  "username": "user12",
+  "password": "#sparta12",
+  "nickname": "유저12",
+  "email": "user12@email.com",
+  "slack_id": "U12RFDJRQEB"
 }
 
 ### 로그인
@@ -25,10 +25,10 @@ Content-Type: application/json
 X-Refresh-Token: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTQ5NTk5MjIyMDYxMjY4MzIsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDAyMDg3NSwiZXhwIjoxNzM0MDMxNjc1fQ.fObp0tyF3ayWFoPPilou5_uObKRerAsnyoxvXZDSwNvZYspeCO4HQsnZGexQwjrBnKOrp0Qcxxwpogw-WtGrmA
 
 ### 사용자 정보 조회 (자신)
-GET localhost:19045/api/users/655372676215485299
+GET localhost:19045/api/users/654959922206126832
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTQ5NTk5MjIyMDYxMjY4MzIsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDA1ODMyMiwiZXhwIjoxNzM0MDU4OTIyfQ.kzrnCOAOt-CAH3KdnLoVABA4qCOfeA4GZ3TOMv4pfKj58kh6W3IM1N9iVKQ_tsov0QSBlzf9TOlgKBKfXFxrqQ
-X-User-Id: 655372676215485299
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTQ5NTk5MjIyMDYxMjY4MzIsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDAyMTAxMywiZXhwIjoxNzM0MDIxNjEzfQ.czHcWtuf8gXj2IE0otT724dvMtIb49pONZnK7HlistXHykjlC7F6GTOCahwayMVPnNhYpKbG16xhD-6w3pzqFQ
+X-User-Id: 654959922206126832
 
 ### 사용자 정보 변경
 PUT localhost:19045/api/users/654959922206126832
@@ -49,3 +49,14 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTQ5NTk5MjIyMDYxMjY4MzIsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDA1ODMyMiwiZXhwIjoxNzM0MDU4OTIyfQ.kzrnCOAOt-CAH3KdnLoVABA4qCOfeA4GZ3TOMv4pfKj58kh6W3IM1N9iVKQ_tsov0QSBlzf9TOlgKBKfXFxrqQ
 X-User-Id: 655372676215485299
 X-User-Role: MASTER
+
+### 사용자 권한 변경
+PATCH localhost:19045/api/users/655384684086497877
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyX2lkIjo2NTUzODQ2ODQwODY0OTc4NzcsInVzZXJfcm9sZSI6IkNVU1RPTUVSIiwiaXNzIjoiYXV0aCIsImlhdCI6MTczNDA5MjY5NywiZXhwIjoxNzM0MDkzMjk3fQ.djc3MN-wh8O8CYrnzdZuRvFbmn7SXNo3-Ytwwkn-MdBGKyQJJB63foytXM_1fqV5cVNvUr3GWAZxocAxZy3p6w
+X-User-Id: 655384684086497877
+X-User-Role: MASTER
+
+{
+  "role": "HUB_MANAGER"
+}
