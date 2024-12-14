@@ -47,7 +47,7 @@ public class ProductService {
     @Transactional
     public ProductDTO modifyProduct(Long productId, ReqProductPostDTO dto) {
 
-        ProductEntity productEntity = productRepository.findByIdAndIsDeletedFalse(productId).orElseThrow(NotFoundProductException::new);
+        ProductEntity productEntity = getProductEntity(productId);
 
         if (!isexistsHubBy(dto.getHubId())) {
             throw new NotFoundHubException();
@@ -64,6 +64,19 @@ public class ProductService {
         productEntity.update(dto.getHubId(), dto.getCompanyId(), dto.getName(), dto.getPrice(), dto.getQuantity());
 
         return ProductDTO.of(productEntity);
+    }
+
+    @Transactional
+    public ProductDTO deleteProduct(Long productId) {
+        ProductEntity productEntity = getProductEntity(productId);
+
+        productEntity.markAsDelete();
+
+        return ProductDTO.of(productEntity);
+    }
+
+    private ProductEntity getProductEntity(Long productId) {
+        return productRepository.findByIdAndIsDeletedFalse(productId).orElseThrow(NotFoundProductException::new);
     }
 
     private boolean isexistsHubBy(Long hubId) {

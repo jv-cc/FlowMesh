@@ -41,4 +41,16 @@ public class ProductController implements ProductControllerSwagger {
                 HttpStatus.OK
         );
     }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<ResDTO<ResProductDTO>> deleteProduct(@PathVariable Long productId) {
+        return new ResponseEntity<>(
+                ResDTO.<ResProductDTO>builder()
+                        .code(HttpStatus.OK.value())
+                        .message("상품이 삭제되었습니다.")
+                        .data(new ResProductDTO(productService.deleteProduct(productId).getProductId()))
+                        .build(),
+                HttpStatus.OK
+        );
+    }
 }
