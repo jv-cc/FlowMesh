@@ -2,6 +2,7 @@ package com.jv_cc.flowmesh.company.domain.model;
 
 import io.hypersistence.utils.hibernate.id.Tsid;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -75,5 +76,12 @@ public class CompanyEntity {
         this.address = address;
         this.createdBy = userId;
         this.updatedBy = userId;
+    }
+
+    public void update(Long hubId, String name, CompanyType type, String address) {
+        this.hubId = hubId;
+        this.name = name;
+        this.type = type;
+        this.address = address;
     }
 }

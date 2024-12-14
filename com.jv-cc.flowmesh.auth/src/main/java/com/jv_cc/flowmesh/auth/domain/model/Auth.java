@@ -1,10 +1,7 @@
 package com.jv_cc.flowmesh.auth.domain.model;
 
 import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -19,7 +16,8 @@ import java.time.LocalDateTime;
 @Table(name = "p_auth")
 public class Auth {
 
-    @Id @Tsid
+    @Id
+    @Tsid
     @Column(name = "user_id")
     private Long id;
 
@@ -39,6 +37,7 @@ public class Auth {
     private String slackId;
 
     @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
     @Column(name = "refresh_token")
@@ -66,12 +65,6 @@ public class Auth {
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 
-    public LocalDateTime markAsDelete(Long userId) {
-        this.isDeleted = true;
-        this.deletedAt = LocalDateTime.now();
-        this.deletedBy = userId;
-        return this.deletedAt;
-    }
     @Builder
     public Auth(String username, String password, String email, String nickname, String slackId) {
         this.username = username;
@@ -83,9 +76,30 @@ public class Auth {
         this.createdAt = LocalDateTime.now();
     }
 
+    public LocalDateTime markAsDelete(Long userId) {
+        this.isDeleted = true;
+        this.deletedAt = LocalDateTime.now();
+        this.deletedBy = userId;
+        return this.deletedAt;
+    }
+
+    public LocalDateTime updateUser(Long masterId, String nickname, String email, String slackId) {
+        this.nickname = nickname;
+        this.email = email;
+        this.slackId = slackId;
+        this.updatedAt = LocalDateTime.now();
+        this.updatedBy = masterId;
+        return this.updatedAt;
+    }
+
     public void updateRefreshToken(String refresh_token) {
         this.refreshToken = refresh_token;
     }
 
+    public void updateRole(Long tokenUserId, UserRoleEnum role) {
+        this.role = role;
+        this.updatedAt = LocalDateTime.now();
+        this.updatedBy = tokenUserId;
+    }
 }
 
