@@ -34,6 +34,13 @@ public class CompanyService {
         return CompanyDTO.of(companyRepository.save(companyEntity));
     }
 
+    @Transactional(readOnly = true)
+    public CompanyDTO getCompany(Long companyId) {
+
+        CompanyEntity companyEntity = getCompanyEntity(companyId);
+
+        return CompanyDTO.of(companyEntity);
+    }
 
     @Transactional
     public CompanyDTO modifyCompany(Long companyId, ReqCompanyPostDTO dto) {
@@ -64,7 +71,7 @@ public class CompanyService {
     }
 
     private CompanyEntity getCompanyEntity(Long companyId) {
-        return companyRepository.findById(companyId).orElseThrow(NotFoundCompanyException::new);
+        return companyRepository.findByIdAndIsDeletedFalse(companyId).orElseThrow(NotFoundCompanyException::new);
     }
 
     private boolean checkDuplicateCompanyName(String companyName) {
