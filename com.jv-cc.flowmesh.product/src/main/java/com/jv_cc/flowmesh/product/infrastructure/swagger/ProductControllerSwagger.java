@@ -3,6 +3,7 @@ package com.jv_cc.flowmesh.product.infrastructure.swagger;
 import com.jv_cc.flowmesh.product.presentation.request.ReqProductPostDTO;
 import com.jv_cc.flowmesh.product.presentation.response.ResDTO;
 import com.jv_cc.flowmesh.product.presentation.response.ResProductDTO;
+import com.jv_cc.flowmesh.product.presentation.response.ResProductGetDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,6 +23,14 @@ public interface ProductControllerSwagger {
     })
     @PostMapping("/api/product")
     ResponseEntity<ResDTO<ResProductDTO>> createProduct(@RequestBody ReqProductPostDTO dto);
+
+    @Operation(summary = "상품 단건 조회", description = "상품 ID를 통해 상품을 단건 조회하는 API 입니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "상품 단건 조회 성공", content = @Content(schema = @Schema(implementation = ResDTO.class))),
+            @ApiResponse(responseCode = "400", description = "상품 단건 조회 실패.", content = @Content(schema = @Schema(implementation = ResDTO.class)))
+    })
+    @GetMapping("/api/product/{productId}")
+    ResponseEntity<ResDTO<ResProductGetDTO>> getProduct(@PathVariable Long productId);
 
     @Operation(summary = "상품 수정", description = "사용자 ID를 통해 상품을 수정하는 API 입니다.")
     @ApiResponses(value = {
