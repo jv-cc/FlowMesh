@@ -11,4 +11,6 @@ public interface CompanyRepository extends JpaRepository<CompanyEntity, Long> {
     boolean existsByNameAndIsDeletedFalse(String name);
 
     Optional<CompanyEntity> findByIdAndIsDeletedFalse(Long companyId);
+
+    boolean existsByIdAndIsDeletedFalse(Long id);
 }
