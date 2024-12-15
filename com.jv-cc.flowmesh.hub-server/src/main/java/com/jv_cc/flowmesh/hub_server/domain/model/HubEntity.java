@@ -25,6 +25,9 @@ public class HubEntity {
     @Column(name = "hub_id")
     private Long id;
 
+    @Column(name = "manager_id")
+    private Long managerId;
+
     @Column(name = "name", nullable = false)
     private String name;
 
