@@ -1,8 +1,10 @@
 package com.jv_cc.flowmesh.delivery.presentation.controller;
 
+import com.jv_cc.flowmesh.delivery.application.dto.DeliveryCreateDTO;
 import com.jv_cc.flowmesh.delivery.application.dto.DeliveryDTO;
 import com.jv_cc.flowmesh.delivery.domain.service.DeliveryService;
 import com.jv_cc.flowmesh.delivery.presentation.request.DeliveryPostDTO;
+import com.jv_cc.flowmesh.delivery.presentation.response.DeliveryPostResponseDTO;
 import com.jv_cc.flowmesh.delivery.presentation.response.DeliveryResponseDTO;
 import com.jv_cc.flowmesh.delivery.presentation.response.ResponseDTO;
 import jakarta.validation.Valid;
@@ -20,17 +22,17 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<DeliveryResponseDTO>> createDelivery(@Valid @RequestBody DeliveryPostDTO dto) {
-        DeliveryDTO deliveryDTO = new DeliveryDTO(dto);
+    public ResponseEntity<ResponseDTO<DeliveryPostResponseDTO>> createDelivery(@Valid @RequestBody DeliveryPostDTO dto) {
+        DeliveryCreateDTO deliveryCreateDTO = new DeliveryCreateDTO(dto);
 
-        deliveryDTO = deliveryService.createDelivery(deliveryDTO);
+        deliveryCreateDTO = deliveryService.createDelivery(deliveryCreateDTO);
 
-        DeliveryResponseDTO deliveryResponseDTO = new DeliveryResponseDTO(deliveryDTO);
+        DeliveryPostResponseDTO deliveryPostResponseDTO = deliveryCreateDTO.toResponseDTO();
 
-        return new ResponseEntity<>(ResponseDTO.<DeliveryResponseDTO>builder()
+        return new ResponseEntity<>(ResponseDTO.<DeliveryPostResponseDTO>builder()
                     .code(HttpStatus.CREATED.value())
                     .message("배송 담당자가 생성되었습니다.")
-                    .data(deliveryResponseDTO)
+                    .data(deliveryPostResponseDTO)
                     .build(),
                     HttpStatus.CREATED
                 );
