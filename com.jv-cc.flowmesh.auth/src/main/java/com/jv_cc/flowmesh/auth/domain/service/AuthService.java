@@ -40,13 +40,13 @@ public class AuthService {
         }
         log.info("Duplicate check completed");
 
-        Auth auth = Auth.builder()
-                .username(userDto.getUsername())
-                .password(passwordEncoder.encode(userDto.getPassword()))
-                .email(userDto.getEmail())
-                .nickname(userDto.getNickname())
-                .slackId(userDto.getSlack_id())
-                .build();
+        Auth auth = new Auth(
+                userDto.getUsername(),
+                passwordEncoder.encode(userDto.getPassword()),
+                userDto.getEmail(),
+                userDto.getNickname(),
+                userDto.getSlack_id()
+        );
         auth = authRepository.save(auth);
         log.info("Registered successfully, authId: {}", auth.getId());
 
@@ -94,7 +94,7 @@ public class AuthService {
         LocalDateTime issuedAt = jwtUtil.getIssuedAtFromToken(refreshToken);
 
         return new AuthTokenDto(
-            auth.getId(),
+                auth.getId(),
                 auth.getRole(),
                 accessToken,
                 auth.getRefreshToken(),
