@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/hub")
+@RequestMapping("/api/hubs")
 public class HubController implements HubControllerSwagger {
 
     private final HubService hubService;
