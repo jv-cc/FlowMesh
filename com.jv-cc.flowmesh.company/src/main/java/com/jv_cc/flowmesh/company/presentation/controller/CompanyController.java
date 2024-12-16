@@ -52,6 +52,11 @@ public class CompanyController implements CompanyControllerSwagger {
         );
     }
 
+    @GetMapping("/{companyId}/client")
+    public boolean getCompanyIdBy(@PathVariable Long companyId){
+        return companyService.getCompanyIdBy(companyId);
+    }
+
     @PatchMapping("/{companyId}")
     public ResponseEntity<ResDTO<ResCompanyDTO>> modifyCompany(@PathVariable Long companyId, @RequestBody ReqCompanyPostDTO dto) {
         return new ResponseEntity<>(
