@@ -7,10 +7,49 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: auth
+          uri: lb://auth
+          predicates:
+            - Path=/api/{segment:auth|users}/**
 
+        - id: chore
+          uri: lb://chore
+          predicates:
+            - Path=/api/{segment:ai|messages}/**
+
+        - id: hub
+          uri: lb://hub
+          predicates:
+            - Path=/api/{segment:hubs|hub-movement-infos}/**
+
+        - id: company
+          uri: lb://company
+          predicates:
+            - Path=/api/companies/**
+
+        - id: product
+          uri: lb://product
+          predicates:
+            - Path=/api/products/**
+
+        - id: delivery
+          uri: lb://delivery
+          predicates:
+            - Path=/api/deliveries/**
+
+        - id: delivery-manager
+          uri: lb://delivery-manager
+          predicates:
+            - Path=/api/delivery-managers/**
+
+        - id: order
+          uri: lb://order
+          predicates:
+            - Path=/api/orders/**
       discovery:
         locator:
           enabled: true
+
   config:
     import: classpath:application-key.yml
 
