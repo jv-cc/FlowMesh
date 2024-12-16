@@ -21,9 +21,7 @@ public class HubService {
     @Transactional
     public HubDTO createHub(Long userId, String role, ReqHubPostDTO dto) {
 
-        if(role.equals("ROLE_MASTER")){
-            throw new MasterOnlyAccessException();
-        }
+        checkMasterRole(role);
 
         if (checkDuplicateHubName(dto.getName())) {
             throw new DuplicateHubNameException();
@@ -48,9 +46,7 @@ public class HubService {
     @Transactional
     public HubDTO modifyHub(Long userId, String role, Long hubId, ReqHubPostDTO dto) {
 
-        if(role.equals("ROLE_MASTER")){
-            throw new MasterOnlyAccessException();
-        }
+        checkMasterRole(role);
 
         HubEntity hubEntity = getHubEntity(hubId);
 
@@ -68,12 +64,20 @@ public class HubService {
     }
 
     @Transactional
-    public HubDTO deleteHub(Long hubId) {
+    public HubDTO deleteHub(Long userId, String role,Long hubId) {
+
+        checkMasterRole(role);
 
         HubEntity hubEntity = getHubEntity(hubId);
-        hubEntity.markAsDelete();
+        hubEntity.markAsDelete(userId);
 
         return HubDTO.of(hubEntity);
+    }
+
+    private void checkMasterRole(String role) {
+        if(role.equals("ROLE_MASTER")) {
+            throw new MasterOnlyAccessException();
+        }
     }
 
     private HubEntity getHubEntity(Long hubId) {

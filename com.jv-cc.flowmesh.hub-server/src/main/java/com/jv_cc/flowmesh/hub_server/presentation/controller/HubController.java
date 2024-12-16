@@ -75,12 +75,14 @@ public class HubController implements HubControllerSwagger {
     }
 
     @DeleteMapping("/{hubId}")
-    public ResponseEntity<ResDTO<ResHubDTO>> deleteHub(@PathVariable Long hubId) {
+    public ResponseEntity<ResDTO<ResHubDTO>> deleteHub(@RequestHeader("X-User-Id") Long userId,
+                                                       @RequestHeader("X-User-Role") String role,
+                                                       @PathVariable Long hubId) {
         return new ResponseEntity<>(
                 ResDTO.<ResHubDTO>builder()
                         .code(HttpStatus.OK.value())
                         .message("허브가 삭제되었습니다.")
-                        .data(new ResHubDTO(hubService.deleteHub(hubId).getHubId()))
+                        .data(new ResHubDTO(hubService.deleteHub(userId, role, hubId).getHubId()))
                         .build()
                 , HttpStatus.OK
         );

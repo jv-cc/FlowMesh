@@ -51,5 +51,7 @@ public interface HubControllerSwagger {
             @ApiResponse(responseCode = "400", description = "허브 삭제 실패.", content = @Content(schema = @Schema(implementation = ResDTO.class)))
     })
     @DeleteMapping("/api/hub/{hubId}")
-    ResponseEntity<ResDTO<ResHubDTO>> deleteHub(@PathVariable Long hubId);
+    ResponseEntity<ResDTO<ResHubDTO>> deleteHub(@RequestHeader("X-User-Id") Long userId,
+                                                @RequestHeader("X-User-Role") String role,
+                                                @PathVariable Long hubId);
 }
