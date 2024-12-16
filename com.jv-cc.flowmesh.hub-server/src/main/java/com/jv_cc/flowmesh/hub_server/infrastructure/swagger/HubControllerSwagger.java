@@ -22,7 +22,7 @@ public interface HubControllerSwagger {
             @ApiResponse(responseCode = "400", description = "허브 생성 실패.", content = @Content(schema = @Schema(implementation = ResDTO.class)))
     })
     @PostMapping("/api/hub")
-    ResponseEntity<ResDTO<ResHubDTO>> createHub(@RequestHeader("X-User-Id") Long userId,
+    ResponseEntity<ResDTO<ResHubDTO>> createHub(@RequestHeader("X-User-Id") String userId,
                                                 @RequestHeader("X-User-Role") String role,
                                                 @RequestBody ReqHubPostDTO dto);
 
@@ -40,7 +40,7 @@ public interface HubControllerSwagger {
             @ApiResponse(responseCode = "400", description = "허브 수정 실패.", content = @Content(schema = @Schema(implementation = ResDTO.class)))
     })
     @PatchMapping("/api/hub/{hubId}")
-    ResponseEntity<ResDTO<ResHubDTO>> modifyHub(@RequestHeader("X-User-Id") Long userId,
+    ResponseEntity<ResDTO<ResHubDTO>> modifyHub(@RequestHeader("X-User-Id") String userId,
                                                 @RequestHeader("X-User-Role") String role,
                                                 @PathVariable Long hubId,
                                                 @RequestBody ReqHubPostDTO dto);
@@ -51,7 +51,7 @@ public interface HubControllerSwagger {
             @ApiResponse(responseCode = "400", description = "허브 삭제 실패.", content = @Content(schema = @Schema(implementation = ResDTO.class)))
     })
     @DeleteMapping("/api/hub/{hubId}")
-    ResponseEntity<ResDTO<ResHubDTO>> deleteHub(@RequestHeader("X-User-Id") Long userId,
+    ResponseEntity<ResDTO<ResHubDTO>> deleteHub(@RequestHeader("X-User-Id") String userId,
                                                 @RequestHeader("X-User-Role") String role,
                                                 @PathVariable Long hubId);
 }
