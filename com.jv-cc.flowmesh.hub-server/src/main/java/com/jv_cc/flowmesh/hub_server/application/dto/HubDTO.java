@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class HubDTO {
 
     private Long hubId;
+    private Long managerId;
     private String name;
     private String address;
     private double latitude;
@@ -21,6 +22,7 @@ public class HubDTO {
 
     public static HubEntity toEntity(ReqHubPostDTO dto) {
         return HubEntity.builder()
+                .managerId(dto.getManagerId())
                 .name(dto.getName())
                 .address(dto.getAddress())
                 .latitude(dto.getLatitude())
@@ -31,6 +33,7 @@ public class HubDTO {
     public static HubDTO of(HubEntity hubEntity) {
         return HubDTO.builder()
                 .hubId(hubEntity.getId())
+                .managerId(hubEntity.getManagerId())
                 .name(hubEntity.getName())
                 .address(hubEntity.getAddress())
                 .latitude(hubEntity.getLatitude())

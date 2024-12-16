@@ -80,7 +80,8 @@ public class HubEntity {
         this.deletedAt = LocalDateTime.now();
     }
 
-    public HubEntity(String name, String address, Double latitude, Double longitude, Long userId) {
+    public HubEntity(Long managerId, String name, String address, Double latitude, Double longitude, Long userId) {
+        this.managerId = managerId;
         this.name = name;
         this.address = address;
         this.latitude = latitude;
