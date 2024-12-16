@@ -25,6 +25,9 @@ public class HubEntity {
     @Column(name = "hub_id")
     private Long id;
 
+    @Column(name = "manager_id")
+    private Long managerId;
+
     @Column(name = "name", nullable = false)
     private String name;
 
@@ -45,7 +48,7 @@ public class HubEntity {
     private Long createdBy;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @Column(name = "updated_by")
@@ -62,28 +65,31 @@ public class HubEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
-    public void update(String name, String address, double latitude, double longitude) {
+    public void update(String name, String address, double latitude, double longitude, Long userId) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.updatedAt = LocalDateTime.now();
+        this.updatedBy = userId;
     }
 
     /*
     * TODO: deletedBy = userId 추가
     * */
-    public void markAsDelete() {
+    public void markAsDelete(Long userId) {
         this.isDeleted = true;
         this.deletedAt = LocalDateTime.now();
+        this.deletedBy = userId;
     }
 
-    public HubEntity(String name, String address, Double latitude, Double longitude, Long userId) {
+    public HubEntity(Long managerId, String name, String address, Double latitude, Double longitude, Long userId) {
+        this.managerId = managerId;
         this.name = name;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.createdBy = userId;
-        this.updatedBy = userId;
     }
 
 }

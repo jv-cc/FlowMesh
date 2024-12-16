@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/company")
+@RequestMapping("/api/companies")
 public class CompanyController implements CompanyControllerSwagger {
 
     private final CompanyService companyService;
