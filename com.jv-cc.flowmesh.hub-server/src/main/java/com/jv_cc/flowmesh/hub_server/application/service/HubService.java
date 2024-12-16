@@ -46,7 +46,11 @@ public class HubService {
     }
 
     @Transactional
-    public HubDTO modifyHub(Long hubId, ReqHubPostDTO dto) {
+    public HubDTO modifyHub(Long userId, String role, Long hubId, ReqHubPostDTO dto) {
+
+        if(role.equals("ROLE_MASTER")){
+            throw new MasterOnlyAccessException();
+        }
 
         HubEntity hubEntity = getHubEntity(hubId);
 
@@ -58,7 +62,7 @@ public class HubService {
             throw new DuplicateHubCoordinatesException();
         }
 
-        hubEntity.update(dto.getName(), dto.getAddress(), dto.getLatitude(), dto.getLongitude());
+        hubEntity.update(dto.getName(), dto.getAddress(), dto.getLatitude(), dto.getLongitude(), userId);
 
         return HubDTO.of(hubEntity);
     }

@@ -65,11 +65,12 @@ public class HubEntity {
     @Column(name = "is_deleted")
     private boolean isDeleted = false;
 
-    public void update(String name, String address, double latitude, double longitude) {
+    public void update(String name, String address, double latitude, double longitude, Long userId) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.updatedBy = userId;
     }
 
     /*

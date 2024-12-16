@@ -23,6 +23,7 @@ public interface HubControllerSwagger {
     })
     @PostMapping("/api/hub")
     ResponseEntity<ResDTO<ResHubDTO>> createHub(@RequestHeader("X-User-Id") Long userId,
+                                                @RequestHeader("X-User-Role") String role,
                                                 @RequestBody ReqHubPostDTO dto);
 
     @Operation(summary = "허브 단건 조회", description = "허브를 단건 조회하는 API 입니다.")
@@ -39,7 +40,10 @@ public interface HubControllerSwagger {
             @ApiResponse(responseCode = "400", description = "허브 수정 실패.", content = @Content(schema = @Schema(implementation = ResDTO.class)))
     })
     @PatchMapping("/api/hub/{hubId}")
-    ResponseEntity<ResDTO<ResHubDTO>> modifyHub(@PathVariable Long hubId, @RequestBody ReqHubPostDTO dto);
+    ResponseEntity<ResDTO<ResHubDTO>> modifyHub(@RequestHeader("X-User-Id") Long userId,
+                                                @RequestHeader("X-User-Role") String role,
+                                                @PathVariable Long hubId,
+                                                @RequestBody ReqHubPostDTO dto);
 
     @Operation(summary = "허브 삭제", description = "사용자 ID를 통해 허브를 삭제하는 API 입니다.")
     @ApiResponses(value = {

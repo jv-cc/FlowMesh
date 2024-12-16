@@ -61,12 +61,14 @@ public class HubController implements HubControllerSwagger {
     }
 
     @PatchMapping("/{hubId}")
-    public ResponseEntity<ResDTO<ResHubDTO>> modifyHub(@PathVariable Long hubId, ReqHubPostDTO dto) {
+    public ResponseEntity<ResDTO<ResHubDTO>> modifyHub(@RequestHeader("X-User-Id") Long userId,
+                                                       @RequestHeader("X-User-Role") String role,
+                                                       @PathVariable Long hubId, ReqHubPostDTO dto) {
         return new ResponseEntity<>(
                 ResDTO.<ResHubDTO>builder()
                         .code(HttpStatus.OK.value())
                         .message("허브가 수정되었습니다.")
-                        .data(new ResHubDTO(hubService.modifyHub(hubId, dto).getHubId()))
+                        .data(new ResHubDTO(hubService.modifyHub(userId, role, hubId, dto).getHubId()))
                         .build(),
                 HttpStatus.OK
         );
