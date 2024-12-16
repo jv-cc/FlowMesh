@@ -75,7 +75,7 @@ public class HubService {
     }
 
     private void checkMasterRole(String role) {
-        if(role.equals("ROLE_MASTER")) {
+        if(role.equals("MASTER")) {
             throw new MasterOnlyAccessException();
         }
     }
