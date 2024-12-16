@@ -65,7 +65,6 @@ public class Auth {
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted = false;
 
-    @Builder
     public Auth(String username, String password, String email, String nickname, String slackId) {
         this.username = username;
         this.password = password;
