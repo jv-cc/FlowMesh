@@ -4,8 +4,8 @@ import com.jv_cc.flowmesh.auth.application.dto.UserInfoDto;
 import com.jv_cc.flowmesh.auth.application.util.JwtUtil;
 import com.jv_cc.flowmesh.auth.domain.model.UserRoleEnum;
 import com.jv_cc.flowmesh.auth.domain.service.UserService;
-import com.jv_cc.flowmesh.auth.presentation.request.SearchReqDto;
 import com.jv_cc.flowmesh.auth.presentation.request.RoleReqDto;
+import com.jv_cc.flowmesh.auth.presentation.request.SearchReqDto;
 import com.jv_cc.flowmesh.auth.presentation.request.UserReqDto;
 import com.jv_cc.flowmesh.auth.presentation.response.ResDTO;
 import com.jv_cc.flowmesh.auth.presentation.response.UserResDto;
@@ -32,10 +32,10 @@ public class UserController {
 
     @GetMapping("/{users_id}")
     public ResponseEntity<ResDTO<UserResDto>> selectUser(
-            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ID) Long tokenUserId,
+            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ID) String tokenUserId,
             @NotNull @PathVariable(value = "users_id") Long userId
     ) {
-        UserInfoDto infoDto = userService.selectUser(userId, tokenUserId);
+        UserInfoDto infoDto = userService.selectUser(userId, Long.valueOf(tokenUserId));
         return new ResponseEntity<>(
                 ResDTO.<UserResDto>builder()
                         .code(HttpStatus.OK.value())
@@ -55,8 +55,8 @@ public class UserController {
 
     @PutMapping("/{users_id}")
     public ResponseEntity<ResDTO<Map<String, String>>> updateUser(
-            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ROLE) UserRoleEnum tokenUserRole,
-            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ID) Long tokenUserId,
+            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ROLE) String tokenUserRole,
+            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ID) String tokenUserId,
             @NotNull @PathVariable(value = "users_id") Long userId,
             @RequestBody UserReqDto reqDto
     ) {
@@ -67,7 +67,7 @@ public class UserController {
                 .nickname(reqDto.getNickname())
                 .slackId(reqDto.getSlackId())
                 .build();
-        LocalDateTime updateAt = userService.updateUser(infoDto, tokenUserId, tokenUserRole);
+        LocalDateTime updateAt = userService.updateUser(infoDto, Long.valueOf(tokenUserId), UserRoleEnum.valueOf(tokenUserRole));
 
         return new ResponseEntity<>(
                 ResDTO.<Map<String, String>>builder()
@@ -83,12 +83,12 @@ public class UserController {
 
     @PatchMapping("/{users_id}")
     public ResponseEntity<ResDTO<Map<String, String>>> updateRole(
-            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ROLE) UserRoleEnum tokenUserRole,
-            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ID) Long tokenUserId,
+            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ROLE) String tokenUserRole,
+            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ID) String tokenUserId,
             @NotNull @PathVariable(value = "users_id") Long userId,
             @NotNull @RequestBody RoleReqDto reqDto
     ) {
-        LocalDateTime updateAt = userService.updateRole(userId, reqDto.getRole(), tokenUserId, tokenUserRole);
+        LocalDateTime updateAt = userService.updateRole(userId, reqDto.getRole(), Long.valueOf(tokenUserId), UserRoleEnum.valueOf(tokenUserRole));
 
         return new ResponseEntity<>(
                 ResDTO.<Map<String, String>>builder()
@@ -104,11 +104,11 @@ public class UserController {
 
     @DeleteMapping("/{users_id}")
     public ResponseEntity<ResDTO<Map<String, String>>> deleteUser(
-            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ROLE) UserRoleEnum tokenUserRole,
-            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ID) Long tokenUserId,
+            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ROLE) String tokenUserRole,
+            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ID) String tokenUserId,
             @NotNull @PathVariable(value = "users_id") Long userId
-    ){
-        LocalDateTime deletedAt = userService.deleteUser(userId, tokenUserId, tokenUserRole);
+    ) {
+        LocalDateTime deletedAt = userService.deleteUser(userId, Long.valueOf(tokenUserId), UserRoleEnum.valueOf(tokenUserRole));
 
         return new ResponseEntity<>(
                 ResDTO.<Map<String, String>>builder()
@@ -124,11 +124,11 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<ResDTO<PagedModel<EntityModel<UserInfoDto>>>> searchUsers(
-            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ROLE) UserRoleEnum tokenUserRole,
+            @NotNull @RequestHeader(name = JwtUtil.JwtHeader.KEY_USER_ROLE) String tokenUserRole,
             @ModelAttribute SearchReqDto reqDto,
             PagedResourcesAssembler<UserInfoDto> assembler
     ) {
-        Page<UserInfoDto> page = userService.searchUser(reqDto, tokenUserRole);
+        Page<UserInfoDto> page = userService.searchUser(reqDto, UserRoleEnum.valueOf(tokenUserRole));
 
         return new ResponseEntity<>(
                 ResDTO.<PagedModel<EntityModel<UserInfoDto>>>builder()

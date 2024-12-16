@@ -38,18 +38,18 @@ public class JwtUtil {
     private Claims getClaimValueFromToken(String token) {
         token = token.substring(JwtHeader.VALUE_BEARER_PREFIX.length());
         return Jwts.parserBuilder()
-                        .setSigningKey(SECRET_KEY)
-                        .build()
-                        .parseClaimsJws(token)
-                        .getBody();
+                .setSigningKey(SECRET_KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
-    public Long getUserIdFromToken(String token) {
-        return getClaimValueFromToken(token).get(USERID, Long.class);
+    public String getUserIdFromToken(String token) {
+        return getClaimValueFromToken(token).get(USERID, String.class);
     }
 
-    public UserRoleEnum getUserRoleFromToken(String token) {
-        return getClaimValueFromToken(token).get(USERROLE, UserRoleEnum.class);
+    public String getUserRoleFromToken(String token) {
+        return getClaimValueFromToken(token).get(USERROLE, String.class);
     }
 
     public LocalDateTime getIssuedAtFromToken(String token) {
@@ -79,12 +79,21 @@ public class JwtUtil {
             }
             log.debug("Validated token issuer");
 
-            Long userId = payload.get(USERID, Long.class);
-            if (userId == null || userId <= 0) {
+            String userId = payload.get(USERID, String.class);
+            Long userIdOrigin = userId != null ? Long.valueOf(userId) : null;
+            if (userIdOrigin != null && userIdOrigin <= 0) {
                 log.error("Invalid userId");
                 return false;
             }
             log.debug("Validated token userId");
+
+            String userRole = payload.get(USERROLE, String.class);
+            UserRoleEnum userRoleOrigin = userRole != null ? UserRoleEnum.valueOf(userRole) : null;
+            if (userRoleOrigin != null){
+                log.error("Invalid userRole");
+                return false;
+            }
+            log.debug("Validated token userRole");
 
             Date expiration = payload.getExpiration();
             if (expiration == null || expiration.before(new Date())) {
@@ -107,8 +116,8 @@ public class JwtUtil {
 
     public String generateRefreshToken(Long userId, UserRoleEnum userRole) {
         return JwtHeader.VALUE_BEARER_PREFIX + Jwts.builder()
-                .claim(USERID, userId)
-                .claim(USERROLE, userRole)
+                .claim(USERID, String.valueOf(userId))
+                .claim(USERROLE, String.valueOf(userRole))
                 .setIssuer(ISSUER)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION_TIME))
@@ -118,13 +127,17 @@ public class JwtUtil {
 
     public String generateAccessToken(Long userId, UserRoleEnum userRole) {
         return JwtHeader.VALUE_BEARER_PREFIX + Jwts.builder()
-                .claim(USERID, userId)
-                .claim(USERROLE, userRole)
+                .claim(USERID, String.valueOf(userId))
+                .claim(USERROLE, String.valueOf(userRole))
                 .setIssuer(ISSUER)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
                 .signWith(SECRET_KEY)
                 .compact();
+    }
+
+    public enum UserRoleEnum {
+        CUSTOMER, DRIVER, HUB_MANAGER, MASTER
     }
 
     public static class JwtHeader {
@@ -133,10 +146,6 @@ public class JwtUtil {
         public final static String KEY_USER_ID = "X-User-Id";
         public final static String KEY_USER_ROLE = "X-User-Role";
         public final static String VALUE_BEARER_PREFIX = "Bearer ";
-    }
-
-    public enum UserRoleEnum {
-        CUSTOMER, DRIVER, HUB_MANAGER, MASTER
     }
 
 }
