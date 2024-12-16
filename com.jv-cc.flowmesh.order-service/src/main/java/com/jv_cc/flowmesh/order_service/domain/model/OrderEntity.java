@@ -1,14 +1,9 @@
 package com.jv_cc.flowmesh.order_service.domain.model;
 
 import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,7 +11,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Entity
 @Table(name = "p_order")
 public class OrderEntity {
@@ -42,6 +39,11 @@ public class OrderEntity {
 
     @Column(name = "request_info")
     private String requestInfo;
+
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @ColumnDefault("'주문 접수'")
+    private OrderStatusEnum status;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -74,6 +76,10 @@ public class OrderEntity {
     public void markAsDelete() {
         this.deletedAt = LocalDateTime.now();
         this.isDeleted = true;
+    }
+
+    public void changeProductCount(int count){
+        this.count = count;
     }
 
 }
