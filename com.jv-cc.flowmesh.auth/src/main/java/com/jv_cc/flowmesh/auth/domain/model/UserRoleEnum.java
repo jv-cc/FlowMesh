@@ -4,17 +4,15 @@ import lombok.Getter;
 
 @Getter
 public enum UserRoleEnum {
-    CUSTOMER(RoleSecurity.CUSTOMER, RoleLabel.CUSTOMER),
-    DRIVER(RoleSecurity.DRIVER, RoleLabel.DRIVER),
-    HUB_MANAGER(RoleSecurity.HUB_MANAGER, RoleLabel.HUB_MANAGER),
-    MASTER(RoleSecurity.MASTER, RoleLabel.MASTER),;
+    CUSTOMER(RoleSecurity.CUSTOMER),
+    DRIVER(RoleSecurity.DRIVER),
+    HUB_MANAGER(RoleSecurity.HUB_MANAGER),
+    MASTER(RoleSecurity.MASTER),;
 
     private final String roleSecurity;
-    private final String roleLabel;
 
-    UserRoleEnum(String roleSecurity, String roleLabel) {
+    UserRoleEnum(String roleSecurity) {
         this.roleSecurity = roleSecurity;
-        this.roleLabel = roleLabel;
     }
 
     public static class RoleSecurity {
@@ -22,12 +20,5 @@ public enum UserRoleEnum {
         public static final String DRIVER = "ROLE_DRIVER";
         public static final String HUB_MANAGER = "ROLE_HUB_MANAGER";
         public static final String MASTER = "ROLE_MASTER";
-    }
-
-    public static class RoleLabel {
-        public static final String CUSTOMER = "업체 담당자";
-        public static final String DRIVER = "배송 담당자";
-        public static final String HUB_MANAGER = "허브 담당자";
-        public static final String MASTER = "마스터 관리자";
     }
 }

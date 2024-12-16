@@ -67,8 +67,8 @@ public class UserController {
                 .nickname(reqDto.getNickname())
                 .slackId(reqDto.getSlackId())
                 .build();
-
         LocalDateTime updateAt = userService.updateUser(infoDto, tokenUserId, tokenUserRole);
+
         return new ResponseEntity<>(
                 ResDTO.<Map<String, String>>builder()
                         .code(HttpStatus.OK.value())
@@ -89,6 +89,7 @@ public class UserController {
             @NotNull @RequestBody RoleReqDto reqDto
     ) {
         LocalDateTime updateAt = userService.updateRole(userId, reqDto.getRole(), tokenUserId, tokenUserRole);
+
         return new ResponseEntity<>(
                 ResDTO.<Map<String, String>>builder()
                         .code(HttpStatus.OK.value())
@@ -129,7 +130,6 @@ public class UserController {
     ) {
         Page<UserInfoDto> page = userService.searchUser(reqDto, tokenUserRole);
 
-        log.info("Controller, User list size: {}", page.getTotalElements());
         return new ResponseEntity<>(
                 ResDTO.<PagedModel<EntityModel<UserInfoDto>>>builder()
                         .code(HttpStatus.OK.value())

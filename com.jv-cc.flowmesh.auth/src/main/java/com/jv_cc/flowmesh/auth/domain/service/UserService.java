@@ -79,10 +79,10 @@ public class UserService {
     @Transactional
     public LocalDateTime deleteUser(Long userId, Long tokenUserId, UserRoleEnum tokenUserRole) {
         this.requireMaster(tokenUserRole);
-        log.info("Master permission verified");
 
         Auth user = this.getEntity(userId);
         user.markAsDelete(tokenUserId);
+        log.info("User soft deleted successfully, userId: {}", user.getId());
 
         return user.getDeletedAt();
     }
@@ -96,9 +96,8 @@ public class UserService {
                 reqDto.getPage(), reqDto.getLimit(), sort
         );
         Page<Auth> userList = authRepository.findAllByUsernameAndIsDeletedFalse(reqDto.getUsername(), pageable);
-        log.info("User list size: {}", userList.getTotalElements());
+        log.info("Searched user list size: {}", userList.getTotalElements());
 
-        userList.map(UserInfoDto::new).getContent().forEach(dto -> System.out.println("dto = " + dto));
         return userList.map(UserInfoDto::new);
     }
 
@@ -109,7 +108,7 @@ public class UserService {
 
     private void requireMaster(UserRoleEnum roleEnum) {
         if (roleEnum.equals(UserRoleEnum.MASTER)) {
-            log.info("User is master role");
+            log.info("Master permission verified");
         } else {
             throw new AuthInvalidTokenException();
         }
