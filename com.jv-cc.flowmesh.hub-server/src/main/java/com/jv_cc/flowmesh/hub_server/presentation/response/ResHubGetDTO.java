@@ -10,6 +10,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ResHubGetDTO {
 
+    @JsonProperty(value = "manger_id")
+    private Long mangerId;
     @JsonProperty(value = "hub_id")
     private Long hubId;
     private String name;

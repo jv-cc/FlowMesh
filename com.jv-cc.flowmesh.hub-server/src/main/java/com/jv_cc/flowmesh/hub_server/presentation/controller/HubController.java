@@ -15,18 +15,20 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/hub")
+@RequestMapping("/api/hubs")
 public class HubController implements HubControllerSwagger {
 
     private final HubService hubService;
 
     @PostMapping
-    public ResponseEntity<ResDTO<ResHubDTO>> createHub(@Valid @RequestBody ReqHubPostDTO dto) {
+    public ResponseEntity<ResDTO<ResHubDTO>> createHub(@RequestHeader("X-User-Id") String userId,
+                                                       @RequestHeader("X-User-Role") String role,
+                                                       @Valid @RequestBody ReqHubPostDTO dto) {
         return new ResponseEntity<>(
                 ResDTO.<ResHubDTO>builder()
                         .code(HttpStatus.CREATED.value())
                         .message("허브가 생성되었습니다.")
-                        .data(new ResHubDTO(hubService.createHub(dto).getHubId()))
+                        .data(new ResHubDTO(hubService.createHub(Long.valueOf(userId), role, dto).getHubId()))
                         .build(),
                 HttpStatus.CREATED
         );
@@ -59,24 +61,28 @@ public class HubController implements HubControllerSwagger {
     }
 
     @PatchMapping("/{hubId}")
-    public ResponseEntity<ResDTO<ResHubDTO>> modifyHub(@PathVariable Long hubId, ReqHubPostDTO dto) {
+    public ResponseEntity<ResDTO<ResHubDTO>> modifyHub(@RequestHeader("X-User-Id") String userId,
+                                                       @RequestHeader("X-User-Role") String role,
+                                                       @PathVariable Long hubId, ReqHubPostDTO dto) {
         return new ResponseEntity<>(
                 ResDTO.<ResHubDTO>builder()
                         .code(HttpStatus.OK.value())
                         .message("허브가 수정되었습니다.")
-                        .data(new ResHubDTO(hubService.modifyHub(hubId, dto).getHubId()))
+                        .data(new ResHubDTO(hubService.modifyHub(Long.valueOf(userId), role, hubId, dto).getHubId()))
                         .build(),
                 HttpStatus.OK
         );
     }
 
     @DeleteMapping("/{hubId}")
-    public ResponseEntity<ResDTO<ResHubDTO>> deleteHub(@PathVariable Long hubId) {
+    public ResponseEntity<ResDTO<ResHubDTO>> deleteHub(@RequestHeader("X-User-Id") String userId,
+                                                       @RequestHeader("X-User-Role") String role,
+                                                       @PathVariable Long hubId) {
         return new ResponseEntity<>(
                 ResDTO.<ResHubDTO>builder()
                         .code(HttpStatus.OK.value())
                         .message("허브가 삭제되었습니다.")
-                        .data(new ResHubDTO(hubService.deleteHub(hubId).getHubId()))
+                        .data(new ResHubDTO(hubService.deleteHub(Long.valueOf(userId), role, hubId).getHubId()))
                         .build()
                 , HttpStatus.OK
         );

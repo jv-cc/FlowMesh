@@ -1,4 +1,4 @@
-package com.jv_cc.flowmesh.gateway_server;
+package com.jv_cc.flowmesh.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -3,6 +3,7 @@ package com.jv_cc.flowmesh.hub_server.application.service;
 import com.jv_cc.flowmesh.hub_server.application.dto.HubDTO;
 import com.jv_cc.flowmesh.hub_server.application.exception.DuplicateHubCoordinatesException;
 import com.jv_cc.flowmesh.hub_server.application.exception.DuplicateHubNameException;
+import com.jv_cc.flowmesh.hub_server.application.exception.MasterOnlyAccessException;
 import com.jv_cc.flowmesh.hub_server.application.exception.NotFoundHubException;
 import com.jv_cc.flowmesh.hub_server.domain.model.HubEntity;
 import com.jv_cc.flowmesh.hub_server.domain.repository.HubRepository;
@@ -18,7 +19,9 @@ public class HubService {
     private final HubRepository hubRepository;
 
     @Transactional
-    public HubDTO createHub(ReqHubPostDTO dto) {
+    public HubDTO createHub(Long userId, String role, ReqHubPostDTO dto) {
+
+        checkMasterRole(role);
 
         if (checkDuplicateHubName(dto.getName())) {
             throw new DuplicateHubNameException();
@@ -28,7 +31,7 @@ public class HubService {
             throw new DuplicateHubCoordinatesException();
         }
 
-        HubEntity hub = HubDTO.toEntity(dto);
+        HubEntity hub = HubDTO.toEntity(userId, dto);
 
         return HubDTO.of(hubRepository.save(hub));
     }
@@ -41,7 +44,9 @@ public class HubService {
     }
 
     @Transactional
-    public HubDTO modifyHub(Long hubId, ReqHubPostDTO dto) {
+    public HubDTO modifyHub(Long userId, String role, Long hubId, ReqHubPostDTO dto) {
+
+        checkMasterRole(role);
 
         HubEntity hubEntity = getHubEntity(hubId);
 
@@ -53,18 +58,26 @@ public class HubService {
             throw new DuplicateHubCoordinatesException();
         }
 
-        hubEntity.update(dto.getName(), dto.getAddress(), dto.getLatitude(), dto.getLongitude());
+        hubEntity.update(dto.getName(), dto.getAddress(), dto.getLatitude(), dto.getLongitude(), userId);
 
         return HubDTO.of(hubEntity);
     }
 
     @Transactional
-    public HubDTO deleteHub(Long hubId) {
+    public HubDTO deleteHub(Long userId, String role,Long hubId) {
+
+        checkMasterRole(role);
 
         HubEntity hubEntity = getHubEntity(hubId);
-        hubEntity.markAsDelete();
+        hubEntity.markAsDelete(userId);
 
         return HubDTO.of(hubEntity);
+    }
+
+    private void checkMasterRole(String role) {
+        if(role.equals("MASTER")) {
+            throw new MasterOnlyAccessException();
+        }
     }
 
     private HubEntity getHubEntity(Long hubId) {
