@@ -87,7 +87,6 @@ public class HubEntity {
         this.latitude = latitude;
         this.longitude = longitude;
         this.createdBy = userId;
-        this.updatedBy = userId;
     }
 
 }

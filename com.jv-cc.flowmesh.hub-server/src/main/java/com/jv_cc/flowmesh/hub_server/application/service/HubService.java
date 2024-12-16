@@ -3,6 +3,7 @@ package com.jv_cc.flowmesh.hub_server.application.service;
 import com.jv_cc.flowmesh.hub_server.application.dto.HubDTO;
 import com.jv_cc.flowmesh.hub_server.application.exception.DuplicateHubCoordinatesException;
 import com.jv_cc.flowmesh.hub_server.application.exception.DuplicateHubNameException;
+import com.jv_cc.flowmesh.hub_server.application.exception.MasterOnlyAccessException;
 import com.jv_cc.flowmesh.hub_server.application.exception.NotFoundHubException;
 import com.jv_cc.flowmesh.hub_server.domain.model.HubEntity;
 import com.jv_cc.flowmesh.hub_server.domain.repository.HubRepository;
@@ -18,7 +19,11 @@ public class HubService {
     private final HubRepository hubRepository;
 
     @Transactional
-    public HubDTO createHub(ReqHubPostDTO dto) {
+    public HubDTO createHub(Long userId, String role, ReqHubPostDTO dto) {
+
+        if(role.equals("ROLE_MASTER")){
+            throw new MasterOnlyAccessException();
+        }
 
         if (checkDuplicateHubName(dto.getName())) {
             throw new DuplicateHubNameException();
@@ -28,7 +33,7 @@ public class HubService {
             throw new DuplicateHubCoordinatesException();
         }
 
-        HubEntity hub = HubDTO.toEntity(dto);
+        HubEntity hub = HubDTO.toEntity(userId, dto);
 
         return HubDTO.of(hubRepository.save(hub));
     }

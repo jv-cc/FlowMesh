@@ -21,12 +21,14 @@ public class HubController implements HubControllerSwagger {
     private final HubService hubService;
 
     @PostMapping
-    public ResponseEntity<ResDTO<ResHubDTO>> createHub(@Valid @RequestBody ReqHubPostDTO dto) {
+    public ResponseEntity<ResDTO<ResHubDTO>> createHub(@RequestHeader("X-User-Id") Long userId,
+                                                       @RequestHeader("X-User-Role") String role,
+                                                       @Valid @RequestBody ReqHubPostDTO dto) {
         return new ResponseEntity<>(
                 ResDTO.<ResHubDTO>builder()
                         .code(HttpStatus.CREATED.value())
                         .message("허브가 생성되었습니다.")
-                        .data(new ResHubDTO(hubService.createHub(dto).getHubId()))
+                        .data(new ResHubDTO(hubService.createHub(userId, role, dto).getHubId()))
                         .build(),
                 HttpStatus.CREATED
         );

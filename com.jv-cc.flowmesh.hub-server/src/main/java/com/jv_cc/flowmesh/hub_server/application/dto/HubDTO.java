@@ -20,13 +20,15 @@ public class HubDTO {
     private double latitude;
     private double longitude;
 
-    public static HubEntity toEntity(ReqHubPostDTO dto) {
+
+    public static HubEntity toEntity(Long userId, ReqHubPostDTO dto) {
         return HubEntity.builder()
                 .managerId(dto.getManagerId())
                 .name(dto.getName())
                 .address(dto.getAddress())
                 .latitude(dto.getLatitude())
                 .longitude(dto.getLongitude())
+                .createdBy(userId)
                 .build();
     }
 
