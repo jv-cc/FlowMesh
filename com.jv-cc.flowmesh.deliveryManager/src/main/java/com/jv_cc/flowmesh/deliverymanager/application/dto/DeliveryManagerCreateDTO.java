@@ -2,9 +2,8 @@ package com.jv_cc.flowmesh.deliverymanager.application.dto;
 
 import com.jv_cc.flowmesh.deliverymanager.domain.model.DeliveryManagerEntity;
 import com.jv_cc.flowmesh.deliverymanager.domain.model.DeliveryManagerEnum;
-import com.jv_cc.flowmesh.deliverymanager.presentation.request.DeliveryManagerPostDTO;
+import com.jv_cc.flowmesh.deliverymanager.presentation.request.DeliveryManagerPostRequestDTO;
 import com.jv_cc.flowmesh.deliverymanager.presentation.response.DeliveryManagerPostResponseDTO;
-import com.jv_cc.flowmesh.deliverymanager.presentation.response.DeliveryManagerResponseDTO;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -44,7 +43,7 @@ public class DeliveryManagerCreateDTO {
     }
 
 
-    public DeliveryManagerCreateDTO(DeliveryManagerPostDTO dto){
+    public DeliveryManagerCreateDTO(DeliveryManagerPostRequestDTO dto){
         this.userId = dto.getUserId();
         this.hubId = dto.getHubId();
         this.deliveryType = dto.getDeliveryType();

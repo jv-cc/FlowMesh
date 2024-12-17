@@ -15,7 +15,9 @@ public enum Error {
     NOT_FOUND_HUB(4000, "해당 허브가 존재하지 않습니다."),
 
     NOT_FOUND_DELIVERY_MANAGER_TYPE(9101, "해당 배송 담당자 타입이 존재하지 않습니다."),
-    EXCEEDED_CAPACITY(9102, "정원이 초과되었습니다.")
+    EXCEEDED_CAPACITY(9102, "정원이 초과되었습니다."),
+    NOT_FOUND_DELIVERY_MANAGER(9301, "해당 배송 담당자가 존재하지 않습니다."),
+
     ;
 
     private Integer code;

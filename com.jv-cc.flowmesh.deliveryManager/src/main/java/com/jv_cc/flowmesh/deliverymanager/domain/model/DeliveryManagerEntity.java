@@ -72,5 +72,12 @@ public class DeliveryManagerEntity {
         this.isDeleted = true;
     }
 
+    public void changeHubId(Long hubId) {
+        this.hubId = hubId;
+    }
+    public void changeType(DeliveryManagerEnum type) {
+        this.type = type;
+    }
+
 
 }

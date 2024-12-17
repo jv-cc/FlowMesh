@@ -6,7 +6,6 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Getter
 public class DeliveryManagerResponseDTO {
 
     public DeliveryManagerResponseDTO(DeliveryManagerDTO deliveryManagerDTO) {

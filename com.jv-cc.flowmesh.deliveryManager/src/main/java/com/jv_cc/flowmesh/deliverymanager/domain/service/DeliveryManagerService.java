@@ -1,21 +1,26 @@
-package com.jv_cc.flowmesh.deliverymanager.application.service;
+package com.jv_cc.flowmesh.deliverymanager.domain.service;
 
 import com.jv_cc.flowmesh.deliverymanager.application.dto.DeliveryManagerCreateDTO;
 import com.jv_cc.flowmesh.deliverymanager.application.dto.DeliveryManagerDTO;
-import com.jv_cc.flowmesh.deliverymanager.application.exception.ExceededCapacityException;
-import com.jv_cc.flowmesh.deliverymanager.application.exception.NotFoundDeliveryManagerTypeException;
-import com.jv_cc.flowmesh.deliverymanager.application.exception.NotFoundHubException;
-import com.jv_cc.flowmesh.deliverymanager.application.exception.NotPermissionException;
+import com.jv_cc.flowmesh.deliverymanager.application.dto.DeliveryManagerPutDTO;
+import com.jv_cc.flowmesh.deliverymanager.application.exception.*;
 import com.jv_cc.flowmesh.deliverymanager.domain.model.DeliveryManagerEntity;
 import com.jv_cc.flowmesh.deliverymanager.domain.model.DeliveryManagerEnum;
 import com.jv_cc.flowmesh.deliverymanager.domain.model.UserRoleEnum;
 import com.jv_cc.flowmesh.deliverymanager.domain.repository.DeliveryManagerRepository;
 import com.jv_cc.flowmesh.deliverymanager.infrastructure.AuthClient;
 import com.jv_cc.flowmesh.deliverymanager.infrastructure.HubClient;
+import com.jv_cc.flowmesh.deliverymanager.presentation.response.DeliveryManagerGetOneResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -68,23 +73,38 @@ public class DeliveryManagerService {
         return capacity;
     }
 
-    public DeliveryManagerDTO updateDeliveryManager(DeliveryManagerDTO deliveryManagerDTO) {
+    public DeliveryManagerPutDTO updateDeliveryManager(DeliveryManagerPutDTO dto) {
 
-        return null;
+        DeliveryManagerEntity entity = deliveryManagerRepository.findById(dto.getDeliveryManagerId()).orElseThrow(NotFoundDeliveryManagerException::new);
+
+        entity.changeHubId(dto.getHubId());
+        entity.changeType(dto.getType());
+
+        DeliveryManagerPutDTO newDto = new DeliveryManagerPutDTO(entity);
+
+        return newDto;
     }
 
-    public Long deleteDeliveryManager(Long deliveryManagerId) {
+    public Map<String, Object> deleteDeliveryManager(Long deliveryManagerId) {
+        DeliveryManagerEntity entity = deliveryManagerRepository.findById(deliveryManagerId).orElseThrow(IllegalArgumentException::new);
 
-        return null;
+        entity.markAsDelete();
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("order_id", entity.getDeliveryManagerId());
+        result.put("deleted_at", entity.getDeletedAt());
+
+        return result;
     }
 
-    public DeliveryManagerDTO getOrders() {
-
-        return null;
+    public Page<DeliveryManagerGetOneResponseDTO> getOrders(Pageable pageable) {
+        return deliveryManagerRepository.findAll(pageable)
+                .map(DeliveryManagerGetOneResponseDTO::new);
     }
 
-    public DeliveryManagerDTO getOrder(Long deliveryManagerId) {
+    public DeliveryManagerGetOneResponseDTO getOrder(Long deliveryManagerId) {
+        DeliveryManagerEntity deliveryManagerEntity = deliveryManagerRepository.findById(deliveryManagerId).orElseThrow(IllegalArgumentException::new);
 
-        return null;
+        return new DeliveryManagerGetOneResponseDTO(deliveryManagerEntity);
     }
 }

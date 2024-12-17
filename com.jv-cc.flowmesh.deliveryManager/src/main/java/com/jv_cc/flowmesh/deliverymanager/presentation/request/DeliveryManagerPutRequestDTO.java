@@ -1,13 +1,13 @@
 package com.jv_cc.flowmesh.deliverymanager.presentation.request;
 
+
 import com.jv_cc.flowmesh.deliverymanager.domain.model.DeliveryManagerEnum;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class DeliveryManagerPostDTO {
+public class DeliveryManagerPutRequestDTO {
 
-    private Long userId;
     private Long hubId;
-    private DeliveryManagerEnum deliveryType;
-
+    private DeliveryManagerEnum type;
 }
