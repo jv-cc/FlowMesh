@@ -52,6 +52,9 @@ public class DeliveryManagerService {
             throw new ExceededCapacityException();
         }
 
+        Long maxSequence = deliveryManagerRepository.findMaxSequenceByHubIdAndType(dto.getHubId(), dto.getDeliveryType());
+
+        dto.setDeliverySequence(maxSequence + 1);
         DeliveryManagerEntity entity = deliveryManagerRepository.save(dto.toEntity());
 
         DeliveryManagerCreateDTO deliveryManagerCreateDTO = new DeliveryManagerCreateDTO(entity);

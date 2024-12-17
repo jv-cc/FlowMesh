@@ -30,6 +30,7 @@ public class DeliveryManagerEntity {
     @Column(name = "hub_id", nullable = false)
     private Long hubId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
     private DeliveryManagerEnum type;
 
