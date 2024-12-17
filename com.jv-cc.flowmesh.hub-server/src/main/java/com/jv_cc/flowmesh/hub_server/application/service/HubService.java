@@ -8,7 +8,13 @@ import com.jv_cc.flowmesh.hub_server.application.exception.NotFoundHubException;
 import com.jv_cc.flowmesh.hub_server.domain.model.HubEntity;
 import com.jv_cc.flowmesh.hub_server.domain.repository.HubRepository;
 import com.jv_cc.flowmesh.hub_server.presentation.request.ReqHubPostDTO;
+import com.jv_cc.flowmesh.hub_server.presentation.request.SearchReqDto;
+import com.jv_cc.flowmesh.hub_server.presentation.response.ResHubGetDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +40,14 @@ public class HubService {
         HubEntity hub = HubDTO.toEntity(userId, dto);
 
         return HubDTO.of(hubRepository.save(hub));
+    }
+    @Transactional(readOnly = true)
+    public Page<ResHubGetDTO > searchHub(SearchReqDto dto) {
+        Sort sort = Sort.by(dto.getOrder().getDirection(), dto.getSort().getLabel());
+        Pageable pageable = PageRequest.of(dto.getPage(), dto.getLimit(), sort);
+        Page<HubEntity> hubList = hubRepository.findAllByNameAndIsDeletedFalse(dto.getName(), pageable);
+
+        return hubList.map(ResHubGetDTO::new);
     }
 
     @Transactional(readOnly = true)
