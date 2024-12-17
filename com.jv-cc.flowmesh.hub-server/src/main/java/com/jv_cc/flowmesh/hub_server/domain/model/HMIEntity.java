@@ -31,8 +31,8 @@ public class HMIEntity {
     @JoinColumn(name = "end_hub_id", referencedColumnName = "hub_id")
     private HubEntity endHubId;
 
-    @Column(name = "duration", nullable = false)
-    private LocalDateTime duration;
+    @Column(name = "timeRequired", nullable = false)
+    private Long timeRequired;
 
     @Column(name = "distance", nullable = false)
     private double distance;
