@@ -1,4 +1,4 @@
-package com.jv_cc.flowmesh.delivery.infrastructure;
+package com.jv_cc.flowmesh.delivery.infrastructure.feignclient;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

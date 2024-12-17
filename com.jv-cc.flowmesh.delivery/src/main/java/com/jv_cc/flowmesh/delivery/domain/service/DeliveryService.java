@@ -10,8 +10,8 @@ import com.jv_cc.flowmesh.delivery.domain.model.DeliveryEnum;
 import com.jv_cc.flowmesh.delivery.domain.model.DeliveryRouteEntity;
 import com.jv_cc.flowmesh.delivery.domain.repository.DeliveryRepository;
 import com.jv_cc.flowmesh.delivery.domain.repository.DeliveryRouteRepository;
-import com.jv_cc.flowmesh.delivery.infrastructure.AiClient;
-import com.jv_cc.flowmesh.delivery.infrastructure.HubClient;
+import com.jv_cc.flowmesh.delivery.infrastructure.feignclient.AiClient;
+import com.jv_cc.flowmesh.delivery.infrastructure.feignclient.HubClient;
 import com.jv_cc.flowmesh.delivery.presentation.response.DeliveryAllGetResponseDTO;
 import com.jv_cc.flowmesh.delivery.presentation.response.DeliveryGetResponseDTO;
 import jakarta.transaction.Transactional;
@@ -21,7 +21,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

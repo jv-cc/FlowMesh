@@ -25,7 +25,11 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<DeliveryPostResponseDTO>> createDelivery(@Valid @RequestBody DeliveryPostDTO dto) {
+    public ResponseEntity<ResponseDTO<DeliveryPostResponseDTO>> createDelivery(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
+            @Valid @RequestBody DeliveryPostDTO dto
+    ) {
         DeliveryCreateDTO deliveryCreateDTO = new DeliveryCreateDTO(dto);
 
         deliveryCreateDTO = deliveryService.createDelivery(deliveryCreateDTO);
@@ -45,7 +49,12 @@ public class DeliveryController {
      * TODO : RequestDTO 바꿔야 함, DeliveryManagerResponseDTO 바꿔야 함
      */
     @PutMapping("/{deliveryId}")
-    public ResponseEntity<ResponseDTO<DeliveryResponseDTO>> updateDelivery(@PathVariable Long deliveryId, @Valid @RequestBody DeliveryPostDTO dto) {
+    public ResponseEntity<ResponseDTO<DeliveryResponseDTO>> updateDelivery(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
+            @PathVariable Long deliveryId,
+            @Valid @RequestBody DeliveryPostDTO dto
+    ) {
         DeliveryDTO deliveryDTO = new DeliveryDTO(dto);
 
         deliveryDTO = deliveryService.updateDelivery(deliveryDTO);
@@ -62,7 +71,11 @@ public class DeliveryController {
     }
 
     @DeleteMapping("/{deliveryId}")
-    public ResponseEntity<ResponseDTO<DeliveryDeleteResponseDTO>> deleteDelivery(@PathVariable Long deliveryId) {
+    public ResponseEntity<ResponseDTO<DeliveryDeleteResponseDTO>> deleteDelivery(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
+            @PathVariable Long deliveryId
+    ) {
 
         DeliveryDeleteResponseDTO responseId = deliveryService.deleteDelivery(deliveryId).toResponseDTO();
 
@@ -77,6 +90,8 @@ public class DeliveryController {
 
     @GetMapping
     public ResponseEntity<ResponseDTO<Page<DeliveryAllGetResponseDTO>>> getDeliveries(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
             @RequestParam(name = "order_id") Long orderId,
             @PageableDefault(size = 10,
                     sort={"order_id, delivery_sequence"},
@@ -94,7 +109,11 @@ public class DeliveryController {
     }
 
     @GetMapping("/{deliveryId}")
-    public ResponseEntity<ResponseDTO<DeliveryGetResponseDTO>> getDeliveryById(@PathVariable Long deliveryId) {
+    public ResponseEntity<ResponseDTO<DeliveryGetResponseDTO>> getDeliveryById(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
+            @PathVariable Long deliveryId
+    ) {
 
         DeliveryGetResponseDTO deliveryDTO = deliveryService.getDeliveryById(deliveryId);
 
