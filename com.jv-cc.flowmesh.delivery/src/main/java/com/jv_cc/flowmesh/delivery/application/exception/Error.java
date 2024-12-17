@@ -10,7 +10,11 @@ public enum Error {
 
     INTERNAL_SERVER_ERROR(9999, "서버 오류입니다."),
 
-    NOT_CREATED_DELIVERY(8101, "배송을 생성하지 못 했습니다.")
+    NOT_CREATED_DELIVERY(8101, "배송을 생성하지 못 했습니다."),
+
+    NOT_DELETED_DELIVERY(8301, "배송을 취소할 수 없습니다."),
+
+
 
     ;
 

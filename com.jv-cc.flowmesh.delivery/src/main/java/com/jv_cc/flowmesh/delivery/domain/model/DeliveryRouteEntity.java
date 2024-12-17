@@ -1,10 +1,7 @@
 package com.jv_cc.flowmesh.delivery.domain.model;
 
 import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -27,8 +24,9 @@ public class DeliveryRouteEntity {
     private Long deliveryRouteId;
 
     @Tsid
-    @Column(name = "delivery_id", nullable = false)
-    private Long deliveryId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "delivery_id")
+    private DeliveryEntity delivery;
 
     @Tsid
     @Column(name = "start_hub_id", nullable = false)
@@ -45,6 +43,7 @@ public class DeliveryRouteEntity {
     @Column(name = "delivery_sequence", nullable = false)
     private Long deliverySequence;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "current_status", nullable = false)
     private DeliveryEnum currentStatus;
 
@@ -55,7 +54,7 @@ public class DeliveryRouteEntity {
     private double estimateDistance;
 
     @Column(name = "actual_duration")
-    private Long actualDuration;
+    private LocalDateTime actualDuration;
 
     @Column(name = "actual_distance")
     private double actualDistance;

@@ -1,10 +1,7 @@
 package com.jv_cc.flowmesh.delivery.domain.model;
 
 import io.hypersistence.utils.hibernate.id.Tsid;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -12,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -28,6 +27,9 @@ public class DeliveryEntity {
     @Tsid
     @Column(name = "order_id", nullable = false)
     private Long orderId;
+
+    @OneToMany(mappedBy = "delivery", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<DeliveryRouteEntity> deliveryRoutes = new ArrayList<>();
 
     @Tsid
     @Column(name = "dm_id")
@@ -52,6 +54,7 @@ public class DeliveryEntity {
     @Column(name = "message_id", nullable = false)
     private Long messageId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "current_status", nullable = false)
     private DeliveryEnum currentStatus;
 

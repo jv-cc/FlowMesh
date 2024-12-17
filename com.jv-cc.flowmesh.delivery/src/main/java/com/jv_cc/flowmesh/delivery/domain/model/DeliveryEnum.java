@@ -7,11 +7,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum DeliveryEnum {
 
-    ORDER_RECEPTION("주문 접수"),
+    Delivery_RECEPTION("배송 접수"),
     PREPARE_FOR_DELIVERY("배송 준비중"),
     DELIVERING("배송중"),
     COMPLETE_DELIVERY("배송완료"),
-    ORDER_CANCEL("주문 취소"),
+    ORDER_CANCEL("배송 취소"),
 
     ;
     private final String label;
