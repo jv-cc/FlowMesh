@@ -1,4 +1,4 @@
-package com.jv_cc.flowmesh.deliverymanager.infrastructure;
+package com.jv_cc.flowmesh.deliverymanager.infrastructure.feignclient;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

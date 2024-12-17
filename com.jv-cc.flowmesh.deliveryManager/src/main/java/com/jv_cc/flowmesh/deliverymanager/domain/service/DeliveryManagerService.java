@@ -1,26 +1,23 @@
 package com.jv_cc.flowmesh.deliverymanager.domain.service;
 
 import com.jv_cc.flowmesh.deliverymanager.application.dto.DeliveryManagerCreateDTO;
-import com.jv_cc.flowmesh.deliverymanager.application.dto.DeliveryManagerDTO;
 import com.jv_cc.flowmesh.deliverymanager.application.dto.DeliveryManagerPutDTO;
 import com.jv_cc.flowmesh.deliverymanager.application.exception.*;
 import com.jv_cc.flowmesh.deliverymanager.domain.model.DeliveryManagerEntity;
 import com.jv_cc.flowmesh.deliverymanager.domain.model.DeliveryManagerEnum;
 import com.jv_cc.flowmesh.deliverymanager.domain.model.UserRoleEnum;
 import com.jv_cc.flowmesh.deliverymanager.domain.repository.DeliveryManagerRepository;
-import com.jv_cc.flowmesh.deliverymanager.infrastructure.AuthClient;
-import com.jv_cc.flowmesh.deliverymanager.infrastructure.HubClient;
+import com.jv_cc.flowmesh.deliverymanager.infrastructure.feignclient.AuthClient;
+import com.jv_cc.flowmesh.deliverymanager.infrastructure.feignclient.HubClient;
 import com.jv_cc.flowmesh.deliverymanager.presentation.response.DeliveryManagerGetOneResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -32,9 +29,6 @@ public class DeliveryManagerService {
     private final AuthClient authClient;
     private final int MAX_DELIVERY_MANGER_COUNT = 10;
 
-    /**
-     * TODO : 권한 빼내는 로직 작성 / 허브 관리자가 담당 허브인지 확인하는 로직 추가예정
-     */
     public DeliveryManagerCreateDTO createDeliveryManager(DeliveryManagerCreateDTO dto) {
 
         authClient.checkRole(dto.getUserId());

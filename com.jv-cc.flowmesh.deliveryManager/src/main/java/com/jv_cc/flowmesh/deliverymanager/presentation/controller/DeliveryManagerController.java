@@ -28,7 +28,11 @@ public class DeliveryManagerController {
     private final DeliveryManagerService deliveryManagerService;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<DeliveryManagerPostResponseDTO>> createDeliveryManager(@Valid @RequestBody DeliveryManagerPostRequestDTO dto) {
+    public ResponseEntity<ResponseDTO<DeliveryManagerPostResponseDTO>> createDeliveryManager(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
+            @Valid @RequestBody DeliveryManagerPostRequestDTO dto
+    ) {
         DeliveryManagerCreateDTO deliveryManagerCreateDTO = new DeliveryManagerCreateDTO(dto);
 
         deliveryManagerCreateDTO = deliveryManagerService.createDeliveryManager(deliveryManagerCreateDTO);
@@ -45,7 +49,12 @@ public class DeliveryManagerController {
     }
 
     @PutMapping("/{deliveryManagerId}")
-    public ResponseEntity<ResponseDTO<DeliveryManagerPutResponseDTO>> updateDeliveryManager(@PathVariable Long deliveryManagerId, @Valid @RequestBody DeliveryManagerPutRequestDTO dto) {
+    public ResponseEntity<ResponseDTO<DeliveryManagerPutResponseDTO>> updateDeliveryManager(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
+            @PathVariable Long deliveryManagerId,
+            @Valid @RequestBody DeliveryManagerPutRequestDTO dto
+    ) {
         DeliveryManagerPutDTO deliveryManagerDTO = new DeliveryManagerPutDTO(dto, deliveryManagerId);
 
         deliveryManagerDTO = deliveryManagerService.updateDeliveryManager(deliveryManagerDTO);
@@ -62,7 +71,11 @@ public class DeliveryManagerController {
     }
 
     @DeleteMapping("/{deliveryManagerId}")
-    public ResponseEntity<ResponseDTO<Map<String, Object>>> deleteDeliveryManager(@PathVariable Long deliveryManagerId) {
+    public ResponseEntity<ResponseDTO<Map<String, Object>>> deleteDeliveryManager(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
+            @PathVariable Long deliveryManagerId
+    ) {
         Map<String, Object> response = deliveryManagerService.deleteDeliveryManager(deliveryManagerId);
 
         return new ResponseEntity<>(ResponseDTO.<Map<String, Object>>builder()
@@ -75,6 +88,8 @@ public class DeliveryManagerController {
 
     @GetMapping
     public ResponseEntity<ResponseDTO<Page<DeliveryManagerGetOneResponseDTO>>> getDeliveryManager(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
             @PageableDefault(size = 10,
             sort = {"deliveryManagerId"},
             direction = Sort.Direction.DESC ) Pageable pageable
@@ -91,7 +106,11 @@ public class DeliveryManagerController {
     }
 
     @GetMapping("/{deliveryManagerId}")
-    public ResponseEntity<ResponseDTO<DeliveryManagerGetOneResponseDTO>> getDeliveryManagerById(@PathVariable Long deliveryManagerId) {
+    public ResponseEntity<ResponseDTO<DeliveryManagerGetOneResponseDTO>> getDeliveryManagerById(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
+            @PathVariable Long deliveryManagerId
+    ) {
 
         DeliveryManagerGetOneResponseDTO deliveryManagerResponseDTO = deliveryManagerService.getOrder(deliveryManagerId);
 
