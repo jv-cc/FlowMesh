@@ -79,7 +79,9 @@ public class DeliveryManagerService {
     public DeliveryManagerPutDTO updateDeliveryManager(DeliveryManagerPutDTO dto) {
 
         DeliveryManagerEntity entity = deliveryManagerRepository.findById(dto.getDeliveryManagerId()).orElseThrow(NotFoundDeliveryManagerException::new);
-
+        if(!hubClient.existsHubBy(dto.getHubId())){
+            throw new NotFoundHubException();
+        }
         entity.changeHubId(dto.getHubId());
         entity.changeType(dto.getType());
 
