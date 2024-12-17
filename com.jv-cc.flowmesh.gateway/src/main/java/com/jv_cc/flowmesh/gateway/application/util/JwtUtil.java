@@ -89,7 +89,7 @@ public class JwtUtil {
 
             String userRole = payload.get(USERROLE, String.class);
             UserRoleEnum userRoleOrigin = userRole != null ? UserRoleEnum.valueOf(userRole) : null;
-            if (userRoleOrigin != null){
+            if (userRoleOrigin == null){
                 log.error("Invalid userRole");
                 return false;
             }

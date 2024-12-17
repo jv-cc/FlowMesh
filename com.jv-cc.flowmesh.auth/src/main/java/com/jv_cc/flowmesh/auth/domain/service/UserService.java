@@ -93,7 +93,7 @@ public class UserService {
 
         Sort sort = Sort.by(reqDto.getOrder().getDirection(), reqDto.getSort().getLabel());
         Pageable pageable = PageRequest.of(
-                reqDto.getPage(), reqDto.getLimit(), sort
+                reqDto.getPage(), this.validatePageLimit(reqDto.getLimit()), sort
         );
         Page<Auth> userList = authRepository.findAllByUsernameAndIsDeletedFalse(reqDto.getUsername(), pageable);
         log.info("Searched user list size: {}", userList.getTotalElements());
@@ -112,5 +112,12 @@ public class UserService {
         } else {
             throw new AuthInvalidTokenException();
         }
+    }
+
+    private Integer validatePageLimit(Integer limit) {
+        if (limit == 10 || limit == 30 || limit == 50) {
+            return limit;
+        }
+        return 10;
     }
 }

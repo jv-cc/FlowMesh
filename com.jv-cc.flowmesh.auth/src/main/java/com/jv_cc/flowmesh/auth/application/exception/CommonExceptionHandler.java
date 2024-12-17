@@ -1,5 +1,6 @@
 package com.jv_cc.flowmesh.auth.application.exception;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 @RequiredArgsConstructor
 @RestControllerAdvice
+@Hidden
 public class CommonExceptionHandler {
 
     @ExceptionHandler(AuthException.class)
