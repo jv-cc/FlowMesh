@@ -38,17 +38,17 @@ public class AuthService {
         if (authRepository.existsBySlackId(userDto.getSlack_id())) {
             throw new UserExistSlackidException();
         }
-        log.info("Duplicate scan completed");
+        log.info("Duplicate check completed");
 
-        Auth auth = Auth.builder()
-                .username(userDto.getUsername())
-                .password(passwordEncoder.encode(userDto.getPassword()))
-                .email(userDto.getEmail())
-                .nickname(userDto.getNickname())
-                .slackId(userDto.getSlack_id())
-                .build();
+        Auth auth = new Auth(
+                userDto.getUsername(),
+                passwordEncoder.encode(userDto.getPassword()),
+                userDto.getEmail(),
+                userDto.getNickname(),
+                userDto.getSlack_id()
+        );
         auth = authRepository.save(auth);
-        log.info("Auth registered successfully");
+        log.info("Registered successfully, authId: {}", auth.getId());
 
         return new UserMetaDto(auth.getId(), auth.getCreatedAt());
     }
@@ -56,7 +56,6 @@ public class AuthService {
     @Transactional
     public AuthTokenDto login(String username, String password) {
         Auth auth = this.getEntity(username);
-        log.info("Exist username: {}", username);
 
         if (!passwordEncoder.matches(password, auth.getPassword())) {
             throw new UserPasswordMismatchException();
@@ -66,6 +65,7 @@ public class AuthService {
         String refreshToken = jwtUtil.generateRefreshToken(auth.getId(), auth.getRole());
         auth.updateRefreshToken(refreshToken);
         authRepository.save(auth);
+        log.info("Refresh token issuance successfully");
 
         return new AuthTokenDto(
                 auth.getId(),
@@ -81,21 +81,20 @@ public class AuthService {
         if (!jwtUtil.validateToken(refreshToken)) {
             throw new AuthInvalidTokenException();
         }
-        log.info("Validate token completed");
+        log.info("Token validate completed");
 
         Auth auth = this.getEntityByToken(refreshToken);
-        log.info("Load Auth entity completed");
 
         refreshToken = jwtUtil.generateRefreshToken(auth.getId(), auth.getRole());
         auth.updateRefreshToken(refreshToken);
         authRepository.save(auth);
-        log.info("Auth updated successfully");
+        log.info("Refresh token update successfully");
 
         String accessToken = jwtUtil.generateAccessToken(auth.getId(), auth.getRole());
         LocalDateTime issuedAt = jwtUtil.getIssuedAtFromToken(refreshToken);
 
         return new AuthTokenDto(
-            auth.getId(),
+                auth.getId(),
                 auth.getRole(),
                 accessToken,
                 auth.getRefreshToken(),

@@ -1,6 +1,5 @@
-package com.jv_cc.flowmesh.auth.application.util;
+package com.jv_cc.flowmesh.gateway.application.util;
 
-import com.jv_cc.flowmesh.auth.domain.model.UserRoleEnum;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -39,10 +38,10 @@ public class JwtUtil {
     private Claims getClaimValueFromToken(String token) {
         token = token.substring(JwtHeader.VALUE_BEARER_PREFIX.length());
         return Jwts.parserBuilder()
-                        .setSigningKey(SECRET_KEY)
-                        .build()
-                        .parseClaimsJws(token)
-                        .getBody();
+                .setSigningKey(SECRET_KEY)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     public String getUserIdFromToken(String token) {
@@ -135,6 +134,10 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
                 .signWith(SECRET_KEY)
                 .compact();
+    }
+
+    public enum UserRoleEnum {
+        CUSTOMER, DRIVER, HUB_MANAGER, MASTER
     }
 
     public static class JwtHeader {
