@@ -1,4 +1,4 @@
-package com.jv_cc.flowmesh.order_service.infrastructure;
+package com.jv_cc.flowmesh.order_service.infrastructure.feignclient;
 
 import com.jv_cc.flowmesh.order_service.presentation.response.ProductGetResponseDTO;
 import com.jv_cc.flowmesh.order_service.presentation.response.ProductPatchResponseDTO;

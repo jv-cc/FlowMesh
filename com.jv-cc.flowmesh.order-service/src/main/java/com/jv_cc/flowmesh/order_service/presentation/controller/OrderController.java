@@ -28,7 +28,11 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-    public ResponseEntity<ResponseDTO<OrderPostResponseDTO>> createOrder(@Valid @RequestBody OrderRequestPostDTO dto){
+    public ResponseEntity<ResponseDTO<OrderPostResponseDTO>> createOrder(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
+            @Valid @RequestBody OrderRequestPostDTO dto
+    ){
         OrderCreateDTO orderCreateDto = new OrderCreateDTO(dto);
 
         orderCreateDto = orderService.createOrder(orderCreateDto);
@@ -46,6 +50,8 @@ public class OrderController {
 
     @PutMapping("/{orderId}")
     public ResponseEntity<ResponseDTO<OrderPutResponseDTO>> updateOrder(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
             @PathVariable Long orderId,
             @Valid @RequestBody OrderRequestPutDTO dto
     ){
@@ -65,9 +71,11 @@ public class OrderController {
     }
 
     @DeleteMapping("/{orderId}")
-    public ResponseEntity<ResponseDTO<Map<String, Object>>> deleteOrder(@PathVariable Long orderId){
-
-
+    public ResponseEntity<ResponseDTO<Map<String, Object>>> deleteOrder(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
+            @PathVariable Long orderId
+    ){
         Map<String, Object> result = orderService.deleteOrder(orderId);
 
 
@@ -86,11 +94,12 @@ public class OrderController {
      */
     @GetMapping
     public ResponseEntity<ResponseDTO<Page<OrderGetResponseDTO>>> getOrders(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
             @PageableDefault(size = 10,
                     sort = {"createdAt","updatedAt"},
-                    direction = Sort.Direction.DESC) Pageable pageable){
-
-
+                    direction = Sort.Direction.DESC) Pageable pageable
+    ){
         Page<OrderGetResponseDTO> orderDTOs = orderService.getOrders(pageable);
 
         return new ResponseEntity<>(ResponseDTO.<Page<OrderGetResponseDTO>>builder()
@@ -104,10 +113,11 @@ public class OrderController {
     }
 
     @GetMapping("/{orderId}")
-    public ResponseEntity<ResponseDTO<OrderGetOneResponseDTO>> getOrder(@PathVariable Long orderId){
-
-
-
+    public ResponseEntity<ResponseDTO<OrderGetOneResponseDTO>> getOrder(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role,
+            @PathVariable Long orderId
+    ){
         OrderGetOneResponseDTO orderResponseDto = orderService.getOrder(orderId);
 
         return new ResponseEntity<>(ResponseDTO.<OrderGetOneResponseDTO>builder()

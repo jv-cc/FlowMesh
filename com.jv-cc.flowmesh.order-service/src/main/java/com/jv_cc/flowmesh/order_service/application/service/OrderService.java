@@ -1,8 +1,6 @@
 package com.jv_cc.flowmesh.order_service.application.service;
 
 import com.jv_cc.flowmesh.order_service.application.dto.OrderCreateDTO;
-import com.jv_cc.flowmesh.order_service.application.dto.OrderDTO;
-import com.jv_cc.flowmesh.order_service.application.dto.OrderGetOneDTO;
 import com.jv_cc.flowmesh.order_service.application.dto.OrderPutDTO;
 import com.jv_cc.flowmesh.order_service.application.exception.DeliveryFailureException;
 import com.jv_cc.flowmesh.order_service.application.exception.OrderNotChangedException;
@@ -11,12 +9,11 @@ import com.jv_cc.flowmesh.order_service.application.exception.ProductNotFoundExc
 import com.jv_cc.flowmesh.order_service.domain.model.OrderEntity;
 import com.jv_cc.flowmesh.order_service.domain.model.OrderStatusEnum;
 import com.jv_cc.flowmesh.order_service.domain.repository.OrderRepository;
-import com.jv_cc.flowmesh.order_service.infrastructure.DeliveryClient;
-import com.jv_cc.flowmesh.order_service.infrastructure.ProductClient;
+import com.jv_cc.flowmesh.order_service.infrastructure.feignclient.DeliveryClient;
+import com.jv_cc.flowmesh.order_service.infrastructure.feignclient.ProductClient;
 import com.jv_cc.flowmesh.order_service.presentation.request.DeliveryPostDTO;
 import com.jv_cc.flowmesh.order_service.presentation.response.*;
 import jakarta.transaction.Transactional;
-import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

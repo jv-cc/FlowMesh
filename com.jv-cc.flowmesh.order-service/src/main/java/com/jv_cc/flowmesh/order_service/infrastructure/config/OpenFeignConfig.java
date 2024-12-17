@@ -1,4 +1,4 @@
-package com.jv_cc.flowmesh.order_service.infrastructure;
+package com.jv_cc.flowmesh.order_service.infrastructure.config;
 
 import feign.Client;
 import feign.httpclient.ApacheHttpClient;
