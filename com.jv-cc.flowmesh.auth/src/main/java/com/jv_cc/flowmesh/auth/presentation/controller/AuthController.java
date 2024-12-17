@@ -39,7 +39,6 @@ public class AuthController implements AuthControllerSwagger {
                         signupReqDto.getSlackId()
                 )
         );
-        log.info("User Signup Success, userId: {}", metaDto.getId());
 
         return new ResponseEntity<>(
                 ResDTO.<SignupResDto>builder()

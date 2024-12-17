@@ -27,9 +27,9 @@ public class JwtUtil {
     private final String ISSUER = "auth";
 
     public JwtUtil(
-            @Value("${JWT.SECRET-KEY}") String secretKey,
-            @Value("${JWT.ACCESS-EXPIRATION}") Long accessExpiration,
-            @Value("${JWT.REFRESH-EXPIRATION}") Long refreshExpiration
+            @Value("${service.jwt.secret-key}") String secretKey,
+            @Value("${service.jwt.access-expiration}") Long accessExpiration,
+            @Value("${service.jwt.refresh-expiration}") Long refreshExpiration
     ) {
         this.SECRET_KEY = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKey));
         this.ACCESS_TOKEN_EXPIRATION_TIME = accessExpiration;
@@ -45,12 +45,12 @@ public class JwtUtil {
                         .getBody();
     }
 
-    public Long getUserIdFromToken(String token) {
-        return getClaimValueFromToken(token).get(USERID, Long.class);
+    public String getUserIdFromToken(String token) {
+        return getClaimValueFromToken(token).get(USERID, String.class);
     }
 
-    public UserRoleEnum getUserRoleFromToken(String token) {
-        return getClaimValueFromToken(token).get(USERROLE, UserRoleEnum.class);
+    public String getUserRoleFromToken(String token) {
+        return getClaimValueFromToken(token).get(USERROLE, String.class);
     }
 
     public LocalDateTime getIssuedAtFromToken(String token) {
@@ -80,12 +80,21 @@ public class JwtUtil {
             }
             log.debug("Validated token issuer");
 
-            Long userId = payload.get(USERID, Long.class);
-            if (userId == null || userId <= 0) {
+            String userId = payload.get(USERID, String.class);
+            Long userIdOrigin = userId != null ? Long.valueOf(userId) : null;
+            if (userIdOrigin != null && userIdOrigin <= 0) {
                 log.error("Invalid userId");
                 return false;
             }
             log.debug("Validated token userId");
+
+            String userRole = payload.get(USERROLE, String.class);
+            UserRoleEnum userRoleOrigin = userRole != null ? UserRoleEnum.valueOf(userRole) : null;
+            if (userRoleOrigin == null){
+                log.error("Invalid userRole");
+                return false;
+            }
+            log.debug("Validated token userRole");
 
             Date expiration = payload.getExpiration();
             if (expiration == null || expiration.before(new Date())) {
@@ -108,8 +117,8 @@ public class JwtUtil {
 
     public String generateRefreshToken(Long userId, UserRoleEnum userRole) {
         return JwtHeader.VALUE_BEARER_PREFIX + Jwts.builder()
-                .claim(USERID, userId)
-                .claim(USERROLE, userRole)
+                .claim(USERID, String.valueOf(userId))
+                .claim(USERROLE, String.valueOf(userRole))
                 .setIssuer(ISSUER)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION_TIME))
@@ -119,8 +128,8 @@ public class JwtUtil {
 
     public String generateAccessToken(Long userId, UserRoleEnum userRole) {
         return JwtHeader.VALUE_BEARER_PREFIX + Jwts.builder()
-                .claim(USERID, userId)
-                .claim(USERROLE, userRole)
+                .claim(USERID, String.valueOf(userId))
+                .claim(USERROLE, String.valueOf(userRole))
                 .setIssuer(ISSUER)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
