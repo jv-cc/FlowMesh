@@ -3,6 +3,7 @@ package com.jv_cc.flowmesh.delivery.domain.service;
 import com.jv_cc.flowmesh.delivery.application.dto.DeliveryCreateDTO;
 import com.jv_cc.flowmesh.delivery.application.dto.DeliveryDTO;
 import com.jv_cc.flowmesh.delivery.application.dto.DeliveryDeleteDTO;
+import com.jv_cc.flowmesh.delivery.application.dto.DeliveryPutDTO;
 import com.jv_cc.flowmesh.delivery.application.exception.NotCreatedDeliveryException;
 import com.jv_cc.flowmesh.delivery.application.exception.NotDeletedException;
 import com.jv_cc.flowmesh.delivery.domain.model.DeliveryEntity;
@@ -46,7 +47,9 @@ public class DeliveryService {
         return null;
     }
 
-    public DeliveryDTO updateDelivery(DeliveryDTO deliveryDTO) {
+    public DeliveryPutDTO updateDelivery(DeliveryPutDTO deliveryDTO) {
+
+
 
         return null;
     }

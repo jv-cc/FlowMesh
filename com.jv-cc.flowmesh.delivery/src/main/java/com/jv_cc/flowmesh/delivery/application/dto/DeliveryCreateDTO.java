@@ -2,7 +2,7 @@ package com.jv_cc.flowmesh.delivery.application.dto;
 
 import com.jv_cc.flowmesh.delivery.domain.model.DeliveryEntity;
 import com.jv_cc.flowmesh.delivery.domain.model.DeliveryEnum;
-import com.jv_cc.flowmesh.delivery.presentation.request.DeliveryPostDTO;
+import com.jv_cc.flowmesh.delivery.presentation.request.DeliveryPostRequestDTO;
 import com.jv_cc.flowmesh.delivery.presentation.response.DeliveryPostResponseDTO;
 import lombok.Getter;
 
@@ -50,13 +50,13 @@ public class DeliveryCreateDTO {
         this.createdAt = deliveryEntity.getCreatedAt();
     }
 
-    public DeliveryCreateDTO(DeliveryPostDTO deliveryPostDTO){
-        this.orderId = deliveryPostDTO.getOrderId();
-        this.demandCompanyId = deliveryPostDTO.getDemandCompanyId();
-        this.supplyCompanyId = deliveryPostDTO.getSupplyCompanyId();
-        this.productId = deliveryPostDTO.getProductId();
-        this.count = deliveryPostDTO.getCount();
-        this.requestInfo = deliveryPostDTO.getRequestInfo();
+    public DeliveryCreateDTO(DeliveryPostRequestDTO deliveryPostRequestDTO){
+        this.orderId = deliveryPostRequestDTO.getOrderId();
+        this.demandCompanyId = deliveryPostRequestDTO.getDemandCompanyId();
+        this.supplyCompanyId = deliveryPostRequestDTO.getSupplyCompanyId();
+        this.productId = deliveryPostRequestDTO.getProductId();
+        this.count = deliveryPostRequestDTO.getCount();
+        this.requestInfo = deliveryPostRequestDTO.getRequestInfo();
 
         this.deliveryId = null;
         this.deliveryStatus = null;

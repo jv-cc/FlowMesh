@@ -3,7 +3,7 @@ package com.jv_cc.flowmesh.delivery.presentation.request;
 import lombok.Getter;
 
 @Getter
-public class DeliveryPostDTO {
+public class DeliveryPostRequestDTO {
     private Long orderId;
     private Long demandCompanyId;
     private Long supplyCompanyId;

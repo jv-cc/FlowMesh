@@ -1,6 +1,6 @@
 package com.jv_cc.flowmesh.delivery.infrastructure.swagger;
 
-import com.jv_cc.flowmesh.delivery.presentation.request.DeliveryPostDTO;
+import com.jv_cc.flowmesh.delivery.presentation.request.DeliveryPostRequestDTO;
 import com.jv_cc.flowmesh.delivery.presentation.response.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,7 +28,7 @@ public interface DeliverySwagger {
     ResponseEntity<ResponseDTO<DeliveryPostResponseDTO>> createDelivery(
             @RequestHeader("X-User-Id") String userId,
             @RequestHeader("X-User-Role") String role,
-            @Valid @RequestBody DeliveryPostDTO dto
+            @Valid @RequestBody DeliveryPostRequestDTO dto
     );
 
 
@@ -42,7 +42,7 @@ public interface DeliverySwagger {
             @RequestHeader("X-User-Id") String userId,
             @RequestHeader("X-User-Role") String role,
             @PathVariable Long deliveryId,
-            @Valid @RequestBody DeliveryPostDTO dto
+            @Valid @RequestBody DeliveryPostRequestDTO dto
     );
 
 

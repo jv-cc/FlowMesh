@@ -1,10 +1,10 @@
 package com.jv_cc.flowmesh.delivery.application.dto;
 
-import com.jv_cc.flowmesh.delivery.presentation.request.DeliveryPostDTO;
+import com.jv_cc.flowmesh.delivery.presentation.request.DeliveryPostRequestDTO;
 
 public class DeliveryDTO {
 
-    public DeliveryDTO(DeliveryPostDTO deliveryPostDTO) {
+    public DeliveryDTO(DeliveryPostRequestDTO deliveryPostRequestDTO) {
 
     }
 }

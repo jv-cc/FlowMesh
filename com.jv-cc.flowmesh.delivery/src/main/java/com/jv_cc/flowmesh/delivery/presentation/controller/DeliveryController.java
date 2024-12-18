@@ -2,9 +2,10 @@ package com.jv_cc.flowmesh.delivery.presentation.controller;
 
 import com.jv_cc.flowmesh.delivery.application.dto.DeliveryCreateDTO;
 import com.jv_cc.flowmesh.delivery.application.dto.DeliveryDTO;
-import com.jv_cc.flowmesh.delivery.application.dto.DeliveryDeleteDTO;
+import com.jv_cc.flowmesh.delivery.application.dto.DeliveryPutDTO;
 import com.jv_cc.flowmesh.delivery.domain.service.DeliveryService;
-import com.jv_cc.flowmesh.delivery.presentation.request.DeliveryPostDTO;
+import com.jv_cc.flowmesh.delivery.presentation.request.DeliveryPostRequestDTO;
+import com.jv_cc.flowmesh.delivery.presentation.request.DeliveryPutRequestDTO;
 import com.jv_cc.flowmesh.delivery.presentation.response.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +29,7 @@ public class DeliveryController {
     public ResponseEntity<ResponseDTO<DeliveryPostResponseDTO>> createDelivery(
             @RequestHeader("X-User-Id") String userId,
             @RequestHeader("X-User-Role") String role,
-            @Valid @RequestBody DeliveryPostDTO dto
+            @Valid @RequestBody DeliveryPostRequestDTO dto
     ) {
         DeliveryCreateDTO deliveryCreateDTO = new DeliveryCreateDTO(dto);
 
@@ -53,9 +54,9 @@ public class DeliveryController {
             @RequestHeader("X-User-Id") String userId,
             @RequestHeader("X-User-Role") String role,
             @PathVariable Long deliveryId,
-            @Valid @RequestBody DeliveryPostDTO dto
+            @Valid @RequestBody DeliveryPutRequestDTO dto
     ) {
-        DeliveryDTO deliveryDTO = new DeliveryDTO(dto);
+        DeliveryPutDTO deliveryDTO = new DeliveryPutDTO(dto, deliveryId);
 
         deliveryDTO = deliveryService.updateDelivery(deliveryDTO);
 

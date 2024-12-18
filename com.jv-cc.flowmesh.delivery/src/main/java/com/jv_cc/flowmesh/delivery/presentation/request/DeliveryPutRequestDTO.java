@@ -7,7 +7,6 @@ import lombok.Getter;
 public class DeliveryPutRequestDTO {
 
     private DeliveryEnum status;
-    private Long deliveryId;
     private String slackId;
 
 }
