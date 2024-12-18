@@ -1,4 +1,4 @@
-package com.jv_cc.flowmesh.order_service.application.service;
+package com.jv_cc.flowmesh.order_service.domain.service;
 
 import com.jv_cc.flowmesh.order_service.application.dto.OrderCreateDTO;
 import com.jv_cc.flowmesh.order_service.application.dto.OrderPutDTO;
