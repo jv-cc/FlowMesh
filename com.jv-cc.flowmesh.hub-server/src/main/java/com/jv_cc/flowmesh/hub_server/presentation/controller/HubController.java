@@ -4,11 +4,16 @@ import com.jv_cc.flowmesh.hub_server.application.dto.HubDTO;
 import com.jv_cc.flowmesh.hub_server.application.service.HubService;
 import com.jv_cc.flowmesh.hub_server.infrastructure.swagger.HubControllerSwagger;
 import com.jv_cc.flowmesh.hub_server.presentation.request.ReqHubPostDTO;
+import com.jv_cc.flowmesh.hub_server.presentation.request.SearchReqDto;
 import com.jv_cc.flowmesh.hub_server.presentation.response.ResDTO;
 import com.jv_cc.flowmesh.hub_server.presentation.response.ResHubDTO;
 import com.jv_cc.flowmesh.hub_server.presentation.response.ResHubGetDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +36,21 @@ public class HubController implements HubControllerSwagger {
                         .data(new ResHubDTO(hubService.createHub(Long.valueOf(userId), role, dto).getHubId()))
                         .build(),
                 HttpStatus.CREATED
+        );
+    }
+
+    @GetMapping
+    public ResponseEntity<ResDTO<PagedModel<EntityModel<ResHubGetDTO>>>> searchHub(@ModelAttribute SearchReqDto dto,
+                                                                                   PagedResourcesAssembler<ResHubGetDTO> assembler) {
+        Page<ResHubGetDTO> page = hubService.searchHub(dto);
+
+        return new ResponseEntity<>(
+                ResDTO.<PagedModel<EntityModel<ResHubGetDTO>>>builder()
+                        .code(HttpStatus.OK.value())
+                        .message("허브 정보를 조회했습니다.")
+                        .data(assembler.toModel(page))
+                        .build(),
+                HttpStatus.OK
         );
     }
 
