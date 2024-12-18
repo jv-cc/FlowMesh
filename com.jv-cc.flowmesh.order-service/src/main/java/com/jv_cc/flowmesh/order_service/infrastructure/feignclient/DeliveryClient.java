@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "delivery", url = "localhost:19080")
+@FeignClient(name = "delivery")
 public interface DeliveryClient {
 
     @PostMapping("/api/deliveries")

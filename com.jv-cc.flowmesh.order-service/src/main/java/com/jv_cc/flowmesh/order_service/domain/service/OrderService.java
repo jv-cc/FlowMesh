@@ -60,6 +60,7 @@ public class OrderService {
         return newOrderDTO;
     }
 
+    @Transactional
     public OrderPutDTO updateOrder(OrderPutDTO orderDto) {
         OrderEntity orderEntity = orderRepository.findById(orderDto.getOrderId()).orElseThrow(IllegalArgumentException::new);
 
@@ -86,10 +87,7 @@ public class OrderService {
         return newOrderDTO;
     }
 
-    /*
-    * TODO : 주문접수 이외의 상태에서 작업 추가해야 함
-    *  예를 들면, 배송완료시 반품 접수로 진행해야 하고 메세지를 남겨야 함
-    */
+    @Transactional
     public Map<String, Object> deleteOrder(Long orderId) {
         OrderEntity entity = orderRepository.findById(orderId).orElseThrow(IllegalArgumentException::new);
 
