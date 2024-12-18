@@ -5,13 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Getter
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class OrderRequestPutDTO {
-    private Long productId;
-    private int count;
+public class OrderRequestDTO {
 
 }
