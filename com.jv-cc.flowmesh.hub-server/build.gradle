@@ -28,6 +28,8 @@ ext {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+
 	// postgres
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.4'
 	runtimeOnly 'org.postgresql:postgresql'

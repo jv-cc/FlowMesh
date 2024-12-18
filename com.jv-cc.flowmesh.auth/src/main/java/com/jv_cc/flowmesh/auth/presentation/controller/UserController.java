@@ -4,6 +4,7 @@ import com.jv_cc.flowmesh.auth.application.dto.UserInfoDto;
 import com.jv_cc.flowmesh.auth.application.util.JwtUtil;
 import com.jv_cc.flowmesh.auth.domain.model.UserRoleEnum;
 import com.jv_cc.flowmesh.auth.domain.service.UserService;
+import com.jv_cc.flowmesh.auth.infrastructor.swagger.UserControllerSwagger;
 import com.jv_cc.flowmesh.auth.presentation.request.RoleReqDto;
 import com.jv_cc.flowmesh.auth.presentation.request.SearchReqDto;
 import com.jv_cc.flowmesh.auth.presentation.request.UserReqDto;
@@ -27,7 +28,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
-public class UserController {
+public class UserController implements UserControllerSwagger {
     private final UserService userService;
 
     @GetMapping("/{users_id}")
